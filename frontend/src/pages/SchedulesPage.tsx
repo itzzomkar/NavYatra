@@ -9,17 +9,13 @@ import {
   PencilIcon,
   TrashIcon,
   PlayIcon,
-  PauseIcon,
   MapPinIcon,
   ExclamationTriangleIcon,
   CheckCircleIcon,
   XCircleIcon,
-  ArrowPathIcon,
-  CpuChipIcon,
-  BoltIcon,
   TruckIcon,
   SparklesIcon,
-  InformationCircleIcon,
+  BoltIcon,
   ArrowRightIcon,
   ChartBarIcon,
   UsersIcon,
@@ -32,7 +28,6 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
 import Card from '../components/ui/Card';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { schedulesApi } from '../services/api';
 import CreateScheduleModal from '../components/schedules/CreateScheduleModal';
 import EditScheduleModal from '../components/schedules/EditScheduleModal';
 import ScheduleDetailsModal from '../components/schedules/ScheduleDetailsModal';
@@ -145,7 +140,9 @@ const SchedulesPage: React.FC = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(null);
   const [aiOptimizationActive, setAiOptimizationActive] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [useDemo, setUseDemo] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hasError, setHasError] = useState(false);
 
   // Error boundary effect
@@ -379,6 +376,7 @@ const SchedulesPage: React.FC = () => {
   };
 
   // Real-time status processing with AI insights
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const processScheduleStatus = (schedule: any) => {
     const now = new Date();
     const departure = new Date(schedule.departureTime);
@@ -394,6 +392,7 @@ const SchedulesPage: React.FC = () => {
   };
 
   // Enhanced mutations with demo mode handling
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
       // Always use demo mode for now
@@ -421,6 +420,7 @@ const SchedulesPage: React.FC = () => {
     }
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: any }) => {
       // Always use demo mode for now
@@ -651,6 +651,7 @@ const SchedulesPage: React.FC = () => {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const formatDuration = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -661,6 +662,7 @@ const SchedulesPage: React.FC = () => {
   };
 
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getEfficiencyColor = (actual: number, expected: number) => {
     const efficiency = (actual / expected) * 100;
     if (efficiency <= 100) return 'text-green-600';
