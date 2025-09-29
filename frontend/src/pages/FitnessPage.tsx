@@ -325,10 +325,18 @@ const FitnessPage: React.FC = () => {
     } catch (error) {
       console.error('Error fetching data:', error);
       
-// Do not use fallback demo data; keep it real
-      setAssessments([]);
-      calculateStats([]);
-      console.warn('Fitness API error; showing no data instead of fallback');
+      // Use fallback demo data when in demo mode or when APIs are not available
+      const isDemoMode = process.env.REACT_APP_DEMO_MODE === 'true';
+      if (isDemoMode) {
+        console.log('Using fallback demo data due to API error and demo mode enabled');
+        const fallbackData = generateFallbackData();
+        setAssessments(fallbackData);
+        calculateStats(fallbackData);
+      } else {
+        setAssessments([]);
+        calculateStats([]);
+        console.warn('Fitness API error; showing no data (demo mode disabled)');
+      }
     } finally {
       setLoading(false);
     }
@@ -338,59 +346,125 @@ const FitnessPage: React.FC = () => {
   const generateFallbackData = (): FitnessAssessment[] => {
     return [
       {
-        _id: 'ts-kmrl-001',
-        trainsetId: 'ts-kmrl-001',
-        trainsetNumber: 'KMRL-001',
+        _id: 'ts001-fitness',
+        trainsetId: 'TS001',
+        trainsetNumber: 'TS001',
         healthStatus: 'EXCELLENT', // Modern Alstom Metropolis, well maintained
         fitnessScore: 94,
         onTimePerformance: 97,
         energyEfficiency: 94,
         assessmentDate: new Date().toISOString(),
-        lastMaintenance: '15/8/2024'
+        lastMaintenance: 'Software-based monitoring'
       },
       {
-        _id: 'ts-kmrl-002',
-        trainsetId: 'ts-kmrl-002',
-        trainsetNumber: 'KMRL-002',
+        _id: 'ts002-fitness',
+        trainsetId: 'TS002',
+        trainsetNumber: 'TS002',
         healthStatus: 'GOOD', // Alstom Metropolis, good condition
         fitnessScore: 88,
         onTimePerformance: 92,
         energyEfficiency: 89,
         assessmentDate: new Date().toISOString(),
-        lastMaintenance: '20/8/2024'
+        lastMaintenance: 'Software-based monitoring'
       },
       {
-        _id: 'ts-kmrl-003',
-        trainsetId: 'ts-kmrl-003',
-        trainsetNumber: 'KMRL-003',
-        healthStatus: 'FAIR', // Currently in maintenance
+        _id: 'ts003-fitness',
+        trainsetId: 'TS003',
+        trainsetNumber: 'TS003',
+        healthStatus: 'FAIR', // Currently in maintenance cycle
         fitnessScore: 75,
         onTimePerformance: 85,
         energyEfficiency: 82,
         assessmentDate: new Date().toISOString(),
-        lastMaintenance: '1/9/2024'
+        lastMaintenance: 'Software-based monitoring'
       },
       {
-        _id: 'ts-kmrl-004',
-        trainsetId: 'ts-kmrl-004',
-        trainsetNumber: 'KMRL-004',
-        healthStatus: 'GOOD', // Alstom Metropolis 2018 model
-        fitnessScore: 90,
+        _id: 'ts004-fitness',
+        trainsetId: 'TS004',
+        trainsetNumber: 'TS004',
+        healthStatus: 'POOR', // Under maintenance, limited operation
+        fitnessScore: 58,
+        onTimePerformance: 78,
+        energyEfficiency: 75,
+        assessmentDate: new Date().toISOString(),
+        lastMaintenance: 'Software-based monitoring'
+      },
+      {
+        _id: 'ts005-fitness',
+        trainsetId: 'TS005',
+        trainsetNumber: 'TS005',
+        healthStatus: 'EXCELLENT', // Newer Alstom Metropolis, excellent performance
+        fitnessScore: 96,
+        onTimePerformance: 98,
+        energyEfficiency: 95,
+        assessmentDate: new Date().toISOString(),
+        lastMaintenance: 'Software-based monitoring'
+      },
+      {
+        _id: 'ts006-fitness',
+        trainsetId: 'TS006',
+        trainsetNumber: 'TS006',
+        healthStatus: 'GOOD', // Alstom Metropolis, good operational status
+        fitnessScore: 87,
+        onTimePerformance: 91,
+        energyEfficiency: 88,
+        assessmentDate: new Date().toISOString(),
+        lastMaintenance: 'Software-based monitoring'
+      },
+      {
+        _id: 'ts007-fitness',
+        trainsetId: 'TS007',
+        trainsetNumber: 'TS007',
+        healthStatus: 'GOOD', // BEML Metro Coach, stable performance
+        fitnessScore: 83,
+        onTimePerformance: 89,
+        energyEfficiency: 86,
+        assessmentDate: new Date().toISOString(),
+        lastMaintenance: 'Software-based monitoring'
+      },
+      {
+        _id: 'ts008-fitness',
+        trainsetId: 'TS008',
+        trainsetNumber: 'TS008',
+        healthStatus: 'EXCELLENT', // BEML Metro Coach, excellent condition
+        fitnessScore: 92,
         onTimePerformance: 95,
+        energyEfficiency: 92,
+        assessmentDate: new Date().toISOString(),
+        lastMaintenance: 'Software-based monitoring'
+      },
+      {
+        _id: 'ts009-fitness',
+        trainsetId: 'TS009',
+        trainsetNumber: 'TS009',
+        healthStatus: 'GOOD', // BEML Metro Coach, good health
+        fitnessScore: 85,
+        onTimePerformance: 90,
+        energyEfficiency: 87,
+        assessmentDate: new Date().toISOString(),
+        lastMaintenance: 'Software-based monitoring'
+      },
+      {
+        _id: 'ts010-fitness',
+        trainsetId: 'TS010',
+        trainsetNumber: 'TS010',
+        healthStatus: 'EXCELLENT', // Newer BEML Metro Coach, top condition
+        fitnessScore: 91,
+        onTimePerformance: 94,
         energyEfficiency: 91,
         assessmentDate: new Date().toISOString(),
-        lastMaintenance: '25/8/2024'
+        lastMaintenance: 'Software-based monitoring'
       },
       {
-        _id: 'ts-kmrl-005',
-        trainsetId: 'ts-kmrl-005',
-        trainsetNumber: 'KMRL-005',
-        healthStatus: 'EXCELLENT', // Alstom Metropolis, excellent performance
-        fitnessScore: 93,
-        onTimePerformance: 96,
-        energyEfficiency: 93,
+        _id: 'ts011-fitness',
+        trainsetId: 'TS011',
+        trainsetNumber: 'TS011',
+        healthStatus: 'EXCELLENT', // Latest BEML Metro Coach Advanced, peak performance
+        fitnessScore: 98,
+        onTimePerformance: 99,
+        energyEfficiency: 97,
         assessmentDate: new Date().toISOString(),
-        lastMaintenance: '10/9/2024'
+        lastMaintenance: 'Software-based monitoring'
       }
     ];
   };
