@@ -261,6 +261,22 @@ const SchedulesPage: React.FC = () => {
   const { data: schedulesResponse, isLoading, error } = useQuery({
     queryKey: ['schedules', statusFilter, dateFilter],
     queryFn: async () => {
+      // Force demo mode for now to show schedules immediately
+      console.log('Using demo mode to display schedules');
+      setUseDemo(true);
+      setHasError(false);
+      
+      // Return demo data in consistent format
+      const demoData = {
+        success: true,
+        data: generateKMRLSchedulesData(),
+        message: 'Demo data loaded - showing sample KMRL schedules'
+      };
+      
+      console.log('Returning demo data:', demoData);
+      return demoData;
+      
+      /* Uncomment the code below when you want to try API calls again
       try {
         const params: any = {};
         if (statusFilter !== 'all') params.status = statusFilter;
@@ -291,6 +307,7 @@ const SchedulesPage: React.FC = () => {
         console.log('Returning demo data:', demoData);
         return demoData;
       }
+      */
     },
     retry: 1,
     refetchOnWindowFocus: false,
@@ -350,14 +367,6 @@ const SchedulesPage: React.FC = () => {
     }
   ];
 
-  useEffect(() => {
-    if (useDemo) {
-      toast('Running in demo mode - API unavailable', { 
-        icon: 'ℹ️',
-        duration: 3000 
-      });
-    }
-  }, [useDemo]);
 
   // AI-enhanced filtering with early arrival detection
   const detectEarlyArrival = (schedule: any) => {
@@ -387,73 +396,83 @@ const SchedulesPage: React.FC = () => {
   // Enhanced mutations with demo mode handling
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      if (useDemo) {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { data: { ...data, id: `demo-${Date.now()}` } };
-      }
-      return schedulesApi.create(data);
+      // Always use demo mode for now
+      console.log('Creating demo schedule with data:', data);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return { 
+        success: true,
+        data: { 
+          ...data, 
+          _id: `demo-${Date.now()}`,
+          id: `demo-${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        message: 'Demo schedule created successfully'
+      };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schedules'] });
       setShowCreateModal(false);
-      toast.success('Schedule created successfully!');
+      toast.success('Demo schedule created successfully!');
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to create schedule');
-    },
+    }
   });
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: any }) => {
-      if (useDemo) {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { data: { ...data, id } };
-      }
-      return schedulesApi.update(id, data);
+      // Always use demo mode for now
+      console.log('Updating demo schedule:', id, data);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return { 
+        success: true,
+        data: { ...data, id, updatedAt: new Date().toISOString() },
+        message: 'Demo schedule updated successfully'
+      };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schedules'] });
       setShowEditModal(false);
       setSelectedSchedule(null);
-      toast.success('Schedule updated successfully!');
+      toast.success('Demo schedule updated successfully!');
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to update schedule');
-    },
+    }
   });
 
   const cancelMutation = useMutation({
     mutationFn: async (id: string) => {
-      if (useDemo) {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { success: true };
-      }
-      return schedulesApi.updateStatus(id, 'CANCELLED', 'Cancelled by user');
+      // Always use demo mode for now
+      console.log('Cancelling demo schedule:', id);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return { success: true, message: 'Demo schedule cancelled' };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schedules'] });
-      toast.success('Schedule cancelled successfully!');
+      toast.success('Demo schedule cancelled successfully!');
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to cancel schedule');
-    },
+    }
   });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      if (useDemo) {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { success: true };
-      }
-      return schedulesApi.delete(id);
+      // Always use demo mode for now
+      console.log('Deleting demo schedule:', id);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return { success: true, message: 'Demo schedule deleted' };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schedules'] });
-      toast.success('Schedule deleted successfully!');
+      toast.success('Demo schedule deleted successfully!');
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to delete schedule');
-    },
+    }
   });
 
   // Event handlers
@@ -863,7 +882,7 @@ const SchedulesPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <Card className="hover:shadow-lg transition-shadow border-l-4 border-l-kmrl-500">
+              <Card className="hover:shadow-xl transition-all duration-200 border-l-4 border-l-kmrl-500 bg-white rounded-lg overflow-hidden">
                 <div className="space-y-4">
                   {/* Header with Status and AI Insights */}
                   <div className="flex items-start justify-between">
@@ -877,31 +896,7 @@ const SchedulesPage: React.FC = () => {
                           <span className="ml-1">{schedule.currentStatus}</span>
                         </span>
                         
-                        {/* AI Optimization Badge */}
-                        {aiOptimizationActive && (
-                          <span className="inline-flex items-center px-2 py-1 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-xs font-medium rounded-md">
-                            <SparklesIcon className="h-3 w-3 mr-1" />
-                            AI Score: {schedule.aiScore}%
-                          </span>
-                        )}
                         
-                        {/* Risk Level Indicator */}
-                        {schedule.riskLevel !== 'LOW' && (
-                          <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-md ${
-                            schedule.riskLevel === 'HIGH' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
-                          }`}>
-                            <ExclamationTriangleIcon className="h-3 w-3 mr-1" />
-                            {schedule.riskLevel} RISK
-                          </span>
-                        )}
-                        
-                        {/* Demo Mode Indicator */}
-                        {useDemo && (
-                          <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-md">
-                            <InformationCircleIcon className="h-3 w-3 mr-1" />
-                            DEMO
-                          </span>
-                        )}
                       </div>
                       
                       {/* Route and Trainset Info */}
@@ -939,26 +934,26 @@ const SchedulesPage: React.FC = () => {
                   </div>
 
                   {/* Enhanced Details Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4 p-4 bg-gray-50 rounded-lg">
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6 p-5 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl border border-gray-100">
                     {/* Station Information */}
                     <div className="lg:col-span-1">
-                      <h4 className="text-sm font-medium text-gray-900 mb-2 flex items-center">
-                        <MapPinIcon className="h-4 w-4 mr-1 text-kmrl-600" />
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                        <MapPinIcon className="h-4 w-4 mr-2 text-kmrl-600" />
                         Route
                       </h4>
-                      <div className="space-y-2">
-                        <div className="text-sm">
-                          <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded-md text-xs font-medium">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-center">
+                          <span className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-green-100 to-green-200 text-green-800 rounded-full text-xs font-semibold shadow-sm">
                             {schedule.route?.from || 'Origin'}
                           </span>
-                          <ArrowRightIcon className="h-3 w-3 mx-2 text-gray-400 inline" />
-                          <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-medium">
+                          <ArrowRightIcon className="h-4 w-4 mx-3 text-kmrl-500" />
+                          <span className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 rounded-full text-xs font-semibold shadow-sm">
                             {schedule.route?.to || 'Destination'}
                           </span>
                         </div>
                         {schedule.stations && schedule.stations.length > 2 && (
-                          <div className="text-xs text-gray-500">
-                            via {schedule.stations.length - 2} intermediate station{schedule.stations.length - 2 !== 1 ? 's' : ''}
+                          <div className="text-xs text-gray-600 text-center bg-white px-2 py-1 rounded-md border">
+                            via {schedule.stations.length - 2} intermediate stop{schedule.stations.length - 2 !== 1 ? 's' : ''}
                           </div>
                         )}
                       </div>
@@ -966,125 +961,147 @@ const SchedulesPage: React.FC = () => {
 
                     {/* Performance Metrics */}
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900 mb-2 flex items-center">
-                        <ChartBarIcon className="h-4 w-4 mr-1 text-kmrl-600" />
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                        <ChartBarIcon className="h-4 w-4 mr-2 text-kmrl-600" />
                         Performance
                       </h4>
-                      <div className="space-y-1 text-xs">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">On-Time Score</span>
-                          <span className={`font-medium ${
-                            schedule.aiScore >= 90 ? 'text-green-600' : 
-                            schedule.aiScore >= 75 ? 'text-yellow-600' : 'text-red-600'
-                          }`}>
-                            {schedule.aiScore}%
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Energy Score</span>
-                          <span className="font-medium text-green-600">
-                            {schedule.energyEfficiencyScore || 88}%
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Risk Level</span>
-                          <span className={`font-medium ${
-                            schedule.riskLevel === 'HIGH' ? 'text-red-600' :
-                            schedule.riskLevel === 'MEDIUM' ? 'text-yellow-600' : 'text-green-600'
-                          }`}>
-                            {schedule.riskLevel || 'LOW'}
-                          </span>
+                      <div className="space-y-2.5">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600 text-xs">Energy Score</span>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-12 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-green-500 rounded-full"
+                                style={{ width: `${schedule.energyEfficiencyScore || 88}%` }}
+                              ></div>
+                            </div>
+                            <span className="font-semibold text-green-600 text-xs">
+                              {schedule.energyEfficiencyScore || 88}%
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     {/* Crew Information */}
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900 mb-2 flex items-center">
-                        <UsersIcon className="h-4 w-4 mr-1 text-kmrl-600" />
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                        <UsersIcon className="h-4 w-4 mr-2 text-kmrl-600" />
                         Crew
                       </h4>
-                      <div className="text-xs text-gray-600 space-y-1">
-                        <div className="flex items-center">
-                          <UserIcon className="h-3 w-3 mr-1" />
-                          {schedule.crew?.driver?.name || 'Driver TBD'}
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                              <UserIcon className="h-3 w-3 text-blue-600" />
+                            </div>
+                            <span className="text-xs font-medium text-gray-700">
+                              {schedule.crew?.driver?.name || 'Driver TBD'}
+                            </span>
+                          </div>
+                          <span className="text-xs text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
+                            Driver
+                          </span>
                         </div>
-                        <div className="flex items-center">
-                          <UserIcon className="h-3 w-3 mr-1" />
-                          {schedule.crew?.coDriver?.name || 'Co-Driver TBD'}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                              <UserIcon className="h-3 w-3 text-green-600" />
+                            </div>
+                            <span className="text-xs font-medium text-gray-700">
+                              {schedule.crew?.coDriver?.name || 'Co-Driver TBD'}
+                            </span>
+                          </div>
+                          <span className="text-xs text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
+                            Co-Driver
+                          </span>
                         </div>
                       </div>
                     </div>
 
                     {/* Operational Details */}
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900 mb-2 flex items-center">
-                        <CogIcon className="h-4 w-4 mr-1 text-kmrl-600" />
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                        <CogIcon className="h-4 w-4 mr-2 text-kmrl-600" />
                         Operations
                       </h4>
-                      <div className="space-y-1 text-xs">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Frequency</span>
-                          <span className="font-medium">{schedule.frequency || 'Daily'}</span>
+                      <div className="space-y-2.5">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600 text-xs">Frequency</span>
+                          <span className="inline-flex items-center px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md text-xs font-medium">
+                            {schedule.frequency || 'Daily'}
+                          </span>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Capacity</span>
-                          <span className="font-medium">850 pax</span>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600 text-xs">Capacity</span>
+                          <span className="inline-flex items-center px-2 py-0.5 bg-purple-50 text-purple-700 rounded-md text-xs font-medium">
+                            850 pax
+                          </span>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Formation</span>
-                          <span className="font-medium">3-Car EMU</span>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600 text-xs">Formation</span>
+                          <span className="inline-flex items-center px-2 py-0.5 bg-gray-50 text-gray-700 rounded-md text-xs font-medium">
+                            3-Car EMU
+                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                    <div className="flex space-x-1">
+                  <div className="flex items-center justify-between pt-5 mt-2 border-t border-gray-200">
+                    <div className="flex space-x-2">
                       <button 
                         onClick={() => handleViewDetails(schedule)}
-                        className="p-2 text-gray-500 hover:text-kmrl-600 hover:bg-gray-50 rounded-lg transition-all duration-200" 
+                        className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-kmrl-700 bg-kmrl-50 border border-kmrl-200 rounded-md hover:bg-kmrl-100 hover:border-kmrl-300 transition-all duration-200 shadow-sm" 
                         title="View Details"
                       >
-                        <EyeIcon className="h-5 w-5" />
+                        <EyeIcon className="h-4 w-4 mr-1" />
+                        View
                       </button>
                       
                       {hasPermission('schedules:update') && (
                         <button 
                           onClick={() => handleEditSchedule(schedule)}
-                          className="p-2 text-gray-500 hover:text-kmrl-600 hover:bg-gray-50 rounded-lg transition-all duration-200" 
+                          className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 hover:border-blue-300 transition-all duration-200 shadow-sm" 
                           title="Edit Schedule"
                         >
-                          <PencilIcon className="h-5 w-5" />
+                          <PencilIcon className="h-4 w-4 mr-1" />
+                          Edit
                         </button>
                       )}
                       
                       {hasPermission('schedules:update') && schedule.currentStatus !== 'CANCELLED' && schedule.currentStatus !== 'COMPLETED' && (
                         <button 
                           onClick={() => handleCancelSchedule(schedule)}
-                          className="p-2 text-gray-500 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-all duration-200" 
+                          className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-orange-700 bg-orange-50 border border-orange-200 rounded-md hover:bg-orange-100 hover:border-orange-300 transition-all duration-200 shadow-sm" 
                           title="Cancel Schedule"
                           disabled={cancelMutation.isPending}
                         >
-                          <XCircleIcon className="h-5 w-5" />
+                          <XCircleIcon className="h-4 w-4 mr-1" />
+                          Cancel
                         </button>
                       )}
                       
                       {hasPermission('schedules:delete') && (
                         <button 
                           onClick={() => handleDeleteSchedule(schedule)}
-                          className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200" 
+                          className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 hover:border-red-300 transition-all duration-200 shadow-sm" 
                           title="Delete (Permanent)"
                           disabled={deleteMutation.isPending}
                         >
-                          <TrashIcon className="h-5 w-5" />
+                          <TrashIcon className="h-4 w-4 mr-1" />
+                          Delete
                         </button>
                       )}
                     </div>
 
-                    <div className="text-xs text-gray-500">
-                      Created {new Date(schedule.createdAt).toLocaleDateString()}
+                    <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+                      Created {new Date(schedule.createdAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
                     </div>
                   </div>
                 </div>

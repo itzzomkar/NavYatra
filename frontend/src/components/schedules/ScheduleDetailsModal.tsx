@@ -11,7 +11,6 @@ import {
   XCircleIcon,
   ArrowRightIcon,
   PlayIcon,
-  PauseIcon,
 } from '@heroicons/react/24/outline';
 
 interface Station {
@@ -147,29 +146,52 @@ const ScheduleDetailsModal: React.FC<ScheduleDetailsModalProps> = ({
     return `${minutes}m`;
   };
 
-  const getStationStatus = (station: Station, currentTime: Date) => {
+  const getStationStatus = (station: Station, currentTime: Date, scheduleStatus: string) => {
     const scheduledArrival = new Date(station.scheduledArrival);
     const actualArrival = station.actualArrival ? new Date(station.actualArrival) : null;
     
+    // If we have actual arrival time, determine if it was early or on-time
     if (actualArrival) {
-      return actualArrival < scheduledArrival ? 'early' : 'on-time';
+      const diffMinutes = (actualArrival.getTime() - scheduledArrival.getTime()) / (1000 * 60);
+      if (diffMinutes < -2) return 'early';
+      if (diffMinutes > 5) return 'delayed';
+      return 'completed';
     }
     
-    if (currentTime > scheduledArrival) {
+    // For schedules that are completed, show as completed
+    if (scheduleStatus === 'COMPLETED') {
+      return 'completed';
+    }
+    
+    // For active schedules, check if we've passed this station
+    if (scheduleStatus === 'ACTIVE' && currentTime > scheduledArrival) {
+      return 'completed';
+    }
+    
+    // For delayed schedules
+    if (scheduleStatus === 'DELAYED') {
       return 'delayed';
     }
     
-    return 'upcoming';
+    // Check if we're past the scheduled time but schedule isn't active
+    if (currentTime > scheduledArrival && scheduleStatus === 'SCHEDULED') {
+      return 'delayed';
+    }
+    
+    // Default to scheduled/upcoming
+    return 'scheduled';
   };
 
   const getStationStatusColor = (status: string) => {
     switch (status) {
       case 'early':
         return 'text-purple-600 bg-purple-100';
-      case 'on-time':
+      case 'completed':
         return 'text-green-600 bg-green-100';
       case 'delayed':
         return 'text-red-600 bg-red-100';
+      case 'scheduled':
+        return 'text-blue-600 bg-blue-100';
       case 'upcoming':
         return 'text-gray-600 bg-gray-100';
       default:
@@ -428,95 +450,94 @@ const ScheduleDetailsModal: React.FC<ScheduleDetailsModalProps> = ({
                     </div>
                   </div>
 
-                  {/* Stations Timeline */}
+                  {/* Train Route & Schedule */}
                   <div className="lg:col-span-2">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Stations Timeline</h3>
-                    <div className="relative">
-                      {schedule.stations?.map((station, index) => {
-                        const currentTime = new Date();
-                        const stationStatus = getStationStatus(station, currentTime);
-                        const isLast = index === schedule.stations.length - 1;
+                    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                      <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+                        <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                          <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
+                          </svg>
+                          Route Schedule
+                          <span className="ml-2 text-sm font-normal text-gray-600">({schedule.stations?.length} stations)</span>
+                        </h3>
+                      </div>
+                      
+                      <div className="p-4">
+                        {schedule.stations?.map((station, index) => {
+                          const currentTime = new Date();
+                          const stationStatus = getStationStatus(station, currentTime, schedule.status);
+                          const isFirst = index === 0;
+                          const isLast = index === schedule.stations.length - 1;
 
-                        return (
-                          <div key={index} className="relative flex items-start space-x-4 pb-8">
-                            {/* Timeline line */}
-                            {!isLast && (
-                              <div className="absolute left-4 top-8 w-0.5 h-full bg-gray-300"></div>
-                            )}
-                            
-                            {/* Station marker */}
-                            <div className={`flex-shrink-0 w-8 h-8 rounded-full border-2 flex items-center justify-center ${
-                              stationStatus === 'early' 
-                                ? 'bg-purple-100 border-purple-300'
-                                : stationStatus === 'on-time'
-                                ? 'bg-green-100 border-green-300'
-                                : stationStatus === 'delayed'
-                                ? 'bg-red-100 border-red-300'
-                                : 'bg-gray-100 border-gray-300'
-                            }`}>
-                              <div className={`w-3 h-3 rounded-full ${
-                                stationStatus === 'early' 
-                                  ? 'bg-purple-500'
-                                  : stationStatus === 'on-time'
-                                  ? 'bg-green-500'
-                                  : stationStatus === 'delayed'
-                                  ? 'bg-red-500'
-                                  : 'bg-gray-500'
-                              }`}></div>
-                            </div>
-
-                            {/* Station information */}
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between mb-2">
-                                <div>
-                                  <h4 className="text-base font-medium text-gray-900">
-                                    {station.name}
-                                    {station.platform && (
-                                      <span className="ml-2 text-sm text-gray-500">
-                                        Platform {station.platform}
-                                      </span>
-                                    )}
-                                  </h4>
+                          return (
+                            <div key={index} className="relative flex items-center mb-5 last:mb-0">
+                              {/* Time column */}
+                              <div className="w-16 text-right mr-8">
+                                <div className="text-lg font-bold text-gray-900">
+                                  {formatTime(station.scheduledArrival)}
                                 </div>
-                                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStationStatusColor(stationStatus)}`}>
-                                  {stationStatus.charAt(0).toUpperCase() + stationStatus.slice(1)}
-                                </span>
+                                <div className="text-xs text-gray-500 mt-1">
+                                  {stationStatus === 'delayed' ? 'DELAYED' : 'ON TIME'}
+                                </div>
                               </div>
-
-                              <div className="grid grid-cols-2 gap-4 text-sm">
-                                <div>
-                                  <div className="text-gray-600 mb-1">Scheduled</div>
-                                  <div className="font-medium">
-                                    Arr: {formatTime(station.scheduledArrival)}
-                                  </div>
-                                  <div className="font-medium">
-                                    Dep: {formatTime(station.scheduledDeparture)}
-                                  </div>
+                              
+                              {/* Station indicator circle with connecting line */}
+                              <div className="relative z-10 flex flex-col items-center">
+                                <div className={`w-4 h-4 rounded-full border-2 bg-white ${
+                                  stationStatus === 'completed' 
+                                    ? 'border-green-500'
+                                    : stationStatus === 'delayed'
+                                    ? 'border-red-500'
+                                    : 'border-orange-400'
+                                } shadow-md`}>
+                                  {stationStatus === 'completed' && (
+                                    <div className="w-full h-full bg-green-500 rounded-full"></div>
+                                  )}
+                                  {stationStatus === 'delayed' && (
+                                    <div className="w-full h-full bg-red-500 rounded-full animate-pulse"></div>
+                                  )}
                                 </div>
-                                {(station.actualArrival || station.actualDeparture) && (
-                                  <div>
-                                    <div className="text-gray-600 mb-1">Actual</div>
-                                    {station.actualArrival && (
-                                      <div className="font-medium">
-                                        Arr: {formatTime(station.actualArrival)}
-                                      </div>
-                                    )}
-                                    {station.actualDeparture && (
-                                      <div className="font-medium">
-                                        Dep: {formatTime(station.actualDeparture)}
-                                      </div>
-                                    )}
-                                  </div>
+                                {/* Connecting line below circle */}
+                                {!isLast && (
+                                  <div className="w-1 h-5 bg-orange-500 mt-1"></div>
                                 )}
                               </div>
                               
-                              <div className="mt-2 text-xs text-gray-500">
-                                Stop duration: {formatDuration(station.stopDuration)}
+                              {/* Station details */}
+                              <div className="ml-6 flex-1">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <h4 className="text-lg font-semibold text-gray-900">
+                                      {station.name}
+                                    </h4>
+                                    {station.platform && (
+                                      <p className="text-sm text-gray-500 mt-1">
+                                        Platform {station.platform}
+                                      </p>
+                                    )}
+                                    <p className="text-xs text-gray-400 mt-1">
+                                      Stop: {formatDuration(station.stopDuration)} • Dep: {formatTime(station.scheduledDeparture)}
+                                    </p>
+                                  </div>
+                                  
+                                  {/* Status badge */}
+                                  <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                    stationStatus === 'completed' 
+                                      ? 'bg-green-100 text-green-800'
+                                      : stationStatus === 'delayed'
+                                      ? 'bg-red-100 text-red-800'
+                                      : 'bg-orange-100 text-orange-800'
+                                  }`}>
+                                    {stationStatus === 'completed' ? 'Departed' :
+                                     stationStatus === 'delayed' ? 'Delayed' : 'Scheduled'}
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
