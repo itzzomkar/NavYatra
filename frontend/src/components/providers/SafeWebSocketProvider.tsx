@@ -49,6 +49,15 @@ export const SafeWebSocketProvider: React.FC<SafeWebSocketProviderProps> = ({
   const [isConnected, setIsConnected] = useState(false);
 
   const connect = async () => {
+    // Skip connection in demo mode
+    if (process.env.REACT_APP_DEMO_MODE === 'true') {
+      console.log('Demo mode enabled, WebSocket connection skipped');
+      setIsConnected(false);
+      setConnectionStatus('failed');
+      onConnectionChange?.(false);
+      return;
+    }
+
     if (!enableRealTime || !user || connectionStatus === 'connecting' || connectionStatus === 'connected') {
       return;
     }

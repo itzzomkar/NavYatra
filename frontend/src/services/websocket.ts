@@ -67,6 +67,13 @@ class WebSocketService {
   // Connect to WebSocket server
   connect(token?: string): Promise<void> {
     return new Promise((resolve, reject) => {
+      // Skip connection in demo mode
+      if (process.env.REACT_APP_DEMO_MODE === 'true') {
+        console.log('Demo mode enabled, skipping WebSocket connection');
+        resolve();
+        return;
+      }
+
       if (this.socket?.connected) {
         resolve();
         return;
@@ -80,7 +87,7 @@ class WebSocketService {
       
       const authToken = token || localStorage.getItem('kmrl_token');
       
-if (!authToken) {
+      if (!authToken) {
         this.isConnecting = false;
         console.log('No auth token, skipping WebSocket connection');
         resolve();
@@ -122,11 +129,14 @@ if (!authToken) {
         this.isConnecting = false;
         this.socket = null;
         
-        // Only show error in production or if explicitly enabled
-        if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_SHOW_WS_ERRORS === 'true') {
+        // Only show error once and not in demo mode
+        if (process.env.REACT_APP_DEMO_MODE !== 'true' && 
+            process.env.REACT_APP_SHOW_WS_ERRORS === 'true' && 
+            this.reconnectAttempts === 0) {
           toast.error('Real-time features unavailable', {
             duration: 3000,
-            position: 'bottom-right'
+            position: 'bottom-right',
+            id: 'websocket-error' // Prevent duplicates
           });
         }
         resolve();
