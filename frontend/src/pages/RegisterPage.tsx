@@ -14,8 +14,8 @@ import {
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
-import { useAuth } from '@/hooks/useAuth';
-import { authService, RegisterRequest } from '@/services/auth';
+import { useAuth } from '../hooks/useAuth';
+import { authService, RegisterRequest } from '../services/auth';
 import { useNavigate } from 'react-router-dom';
 
 interface RegisterFormData {

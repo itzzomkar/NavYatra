@@ -19,11 +19,11 @@ import {
 import { useQuery, useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
-import { scheduleApi, metroCarsApi, analyticsApi } from '@/services/api';
-import { useAuth } from '@/hooks/useAuth';
-import { useWebSocket } from '@/hooks/useWebSocket';
-import Card from '@/components/ui/Card';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { scheduleApi, metroCarsApi, analyticsApi } from '../services/api';
+import { useAuth } from '../hooks/useAuth';
+import { useWebSocket } from '../hooks/useWebSocket';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
 
 interface OptimizationConstraints {
   // Operational Constraints

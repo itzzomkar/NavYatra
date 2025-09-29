@@ -29,10 +29,10 @@ import {
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
-import { useAuth } from '@/hooks/useAuth';
-import Card from '@/components/ui/Card';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { trainsetsApi } from '@/services/api';
+import { useAuth } from '../hooks/useAuth';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { trainsetsApi } from '../services/api';
 
 interface Trainset {
   _id: string;

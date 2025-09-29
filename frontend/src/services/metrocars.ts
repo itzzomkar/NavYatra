@@ -1,5 +1,5 @@
 import { api } from './api';
-import { ApiResponse, Trainset, PaginationParams, PaginatedResponse } from '@/types';
+import { ApiResponse, Trainset, PaginationParams, PaginatedResponse } from '../types';
 
 export interface TrainsetFilters {
   status?: string;

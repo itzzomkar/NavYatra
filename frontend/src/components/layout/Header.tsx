@@ -11,7 +11,7 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 interface HeaderProps {
   onMenuClick: () => void;

@@ -13,7 +13,7 @@ import {
   CogIcon,
   BoltIcon
 } from '@heroicons/react/24/outline';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
 import toast from 'react-hot-toast';
 
 const ModernLoginPage: React.FC = () => {

@@ -16,10 +16,10 @@ import {
 } from '@heroicons/react/24/outline';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { useAuth } from '@/hooks/useAuth';
-import { useWebSocket } from '@/hooks/useWebSocket';
-import Card from '@/components/ui/Card';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { useAuth } from '../hooks/useAuth';
+import { useWebSocket } from '../hooks/useWebSocket';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
 import aiInsightsService, {
   AIInsight,
   AIInsightFilters,
@@ -27,8 +27,8 @@ import aiInsightsService, {
   InsightSeverity,
   InsightType,
   InsightStatus
-} from '@/services/aiInsightsService';
-import '@/styles/aiInsightsOverride.css';
+} from '../services/aiInsightsService';
+import '../styles/aiInsightsOverride.css';
 
 const AIInsightsPage: React.FC = () => {
   const { user: currentUser } = useAuth();

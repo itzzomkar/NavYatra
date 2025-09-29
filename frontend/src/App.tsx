@@ -5,32 +5,32 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 
 // Components
-import Layout from '@/components/layout/Layout';
-import ProtectedRoute from '@/components/layout/ProtectedRoute';
-import AdminRoute from '@/components/layout/AdminRoute';
-import SafeWebSocketProvider from '@/components/providers/SafeWebSocketProvider';
-import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import Layout from './components/layout/Layout';
+import ProtectedRoute from './components/layout/ProtectedRoute';
+import AdminRoute from './components/layout/AdminRoute';
+import SafeWebSocketProvider from './components/providers/SafeWebSocketProvider';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 
 // Pages
 import ModernLoginPage from './pages/ModernLoginPage';
-import RegisterPage from '@/pages/RegisterPage';
+import RegisterPage from './pages/RegisterPage';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import NotFoundPage from './pages/NotFoundPage';
-import MetroCarsPage from '@/pages/MetroCarsPage';
-import SchedulesPage from '@/pages/SchedulesPage';
-import OptimizationPage from '@/pages/OptimizationPage';
+import MetroCarsPage from './pages/MetroCarsPage';
+import SchedulesPage from './pages/SchedulesPage';
+import OptimizationPage from './pages/OptimizationPage';
 import FitnessPage from './pages/FitnessPage';
 import JobCardsPage from './pages/JobCardsPage';
 import OptimizationDashboard from './pages/OptimizationDashboard';
 import WhatIfSimulatorEnhanced from './pages/WhatIfSimulatorEnhanced';
 import DiagnosticPage from './pages/DiagnosticPage';
-import AnalyticsPage from '@/pages/AnalyticsPage';
-import UsersPage from '@/pages/UsersPage';
-import SettingsPage from '@/pages/SettingsPage';
-import AIInsightsPage from '@/pages/AIInsightsPage';
+import AnalyticsPage from './pages/AnalyticsPage';
+import UsersPage from './pages/UsersPage';
+import SettingsPage from './pages/SettingsPage';
+import AIInsightsPage from './pages/AIInsightsPage';
 
 // Services
-import { authService } from '@/services/auth';
+import { authService } from './services/auth';
 
 // Styles
 import './index.css';

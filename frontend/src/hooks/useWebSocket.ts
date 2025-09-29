@@ -6,7 +6,7 @@ import webSocketService, {
   OptimizationUpdate, 
   EmergencyAlert, 
   SystemNotification 
-} from '@/services/websocket';
+} from '../services/websocket';
 
 export interface UseWebSocketOptions {
   autoConnect?: boolean;

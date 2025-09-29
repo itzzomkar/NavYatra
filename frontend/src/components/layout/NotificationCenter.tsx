@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { Notification, NotificationType } from '@/types';
+import { Notification, NotificationType } from '../../types';
 
 interface NotificationCenterProps {
   isOpen: boolean;

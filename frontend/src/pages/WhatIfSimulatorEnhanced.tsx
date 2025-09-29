@@ -16,8 +16,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
-import { metroCarsApi, analyticsApi, fitnessApi, jobCardsApi } from '@/services/api';
-import { useWebSocket } from '@/hooks/useWebSocket';
+import { metroCarsApi, analyticsApi, fitnessApi, jobCardsApi } from '../services/api';
+import { useWebSocket } from '../hooks/useWebSocket';
 import { TrainsetStatus, JobPriority, FitnessStatus } from '../types';
 
 // No Chart.js imports needed - using static SVG charts

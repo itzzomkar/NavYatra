@@ -12,7 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 const LoginPage: React.FC = () => {
   const { isAuthenticated, login, isLoading } = useAuth();

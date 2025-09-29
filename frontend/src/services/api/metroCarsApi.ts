@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TrainsetStatus } from '@/types';
+import { TrainsetStatus } from '../../types';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 

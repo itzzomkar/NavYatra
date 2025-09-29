@@ -3,7 +3,7 @@
   "framework": null,
   "buildCommand": "npm run build",
   "outputDirectory": "build",
-  "installCommand": "npm install",
+  "installCommand": "npm install --legacy-peer-deps",
   "devCommand": "npm start",
   "rewrites": [
     {

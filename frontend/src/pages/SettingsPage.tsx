@@ -15,10 +15,10 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
-import { useAuth } from '@/hooks/useAuth';
-import Card from '@/components/ui/Card';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import settingsService, { SystemSettings } from '@/services/settings';
+import { useAuth } from '../hooks/useAuth';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import settingsService, { SystemSettings } from '../services/settings';
 
 const SettingsPage: React.FC = () => {
   const { user, hasPermission } = useAuth();

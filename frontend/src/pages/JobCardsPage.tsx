@@ -18,15 +18,15 @@ import {
 import { toast } from 'react-hot-toast';
 
 // Components
-import Card from '@/components/ui/Card';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import MetricCard from '@/components/ui/MetricCard';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import MetricCard from '../components/ui/MetricCard';
 
 // Hooks
-import { useWebSocket } from '@/hooks/useWebSocket';
+import { useWebSocket } from '../hooks/useWebSocket';
 
 // API
-import { api } from '@/services/api';
+import { api } from '../services/api';
 
 // Types
 interface JobCard {

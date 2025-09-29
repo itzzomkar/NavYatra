@@ -30,7 +30,7 @@ import {
   RadialBarChart,
   RadialBar,
 } from 'recharts';
-import Card from '@/components/ui/Card';
+import Card from '../../components/ui/Card';
 
 interface MaintenancePrediction {
   trainsetId: string;

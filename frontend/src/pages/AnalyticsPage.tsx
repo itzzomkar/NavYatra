@@ -25,12 +25,12 @@ import {
 import { Line, Bar, Doughnut, Scatter } from 'react-chartjs-2';
 import { useQuery } from '@tanstack/react-query';
 
-import { useAuth } from '@/hooks/useAuth';
-import { useWebSocket } from '@/hooks/useWebSocket';
-import Card from '@/components/ui/Card';
-import MetricCard from '@/components/ui/MetricCard';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { analyticsApi, metroCarsApi, fitnessApi, jobCardsApi } from '@/services/api';
+import { useAuth } from '../hooks/useAuth';
+import { useWebSocket } from '../hooks/useWebSocket';
+import Card from '../components/ui/Card';
+import MetricCard from '../components/ui/MetricCard';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { analyticsApi, metroCarsApi, fitnessApi, jobCardsApi } from '../services/api';
 
 // Register Chart.js components
 ChartJS.register(

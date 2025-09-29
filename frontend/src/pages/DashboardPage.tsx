@@ -24,11 +24,11 @@ import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/hooks/useAuth';
-import Card from '@/components/ui/Card';
-import MetricCard from '@/components/ui/MetricCard';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { analyticsApi } from '@/services/api';
+import { useAuth } from '../hooks/useAuth';
+import Card from '../components/ui/Card';
+import MetricCard from '../components/ui/MetricCard';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { analyticsApi } from '../services/api';
 
 // Register Chart.js components
 ChartJS.register(

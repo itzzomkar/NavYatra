@@ -22,10 +22,10 @@ import {
 } from '@heroicons/react/24/outline';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { useAuth } from '@/hooks/useAuth';
-import { useWebSocket } from '@/hooks/useWebSocket';
-import Card from '@/components/ui/Card';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { useAuth } from '../hooks/useAuth';
+import { useWebSocket } from '../hooks/useWebSocket';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
 import userService, { 
   User, 
   UserRole, 
@@ -35,7 +35,7 @@ import userService, {
   CreateUserRequest,
   UpdateUserRequest,
   UserAnalytics
-} from '@/services/userService';
+} from '../services/userService';
 
 const UsersPage: React.FC = () => {
   const { user: currentUser, hasPermission } = useAuth();

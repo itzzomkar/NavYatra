@@ -1,5 +1,5 @@
 import { api, aiService } from './api';
-import { Schedule, OptimizationResult, TrainsetAssignment } from '@/types';
+import { Schedule, OptimizationResult, TrainsetAssignment } from '../types';
 
 export interface OptimizationConstraints {
   fitnessRequired?: boolean;

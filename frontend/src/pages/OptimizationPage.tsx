@@ -39,12 +39,12 @@ import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
-import { scheduleApi, metroCarsApi, analyticsApi } from '@/services/api';
-import { useAuth } from '@/hooks/useAuth';
-import { useWebSocket } from '@/hooks/useWebSocket';
-import Card from '@/components/ui/Card';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import MetricCard from '@/components/ui/MetricCard';
+import { scheduleApi, metroCarsApi, analyticsApi } from '../services/api';
+import { useAuth } from '../hooks/useAuth';
+import { useWebSocket } from '../hooks/useWebSocket';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import MetricCard from '../components/ui/MetricCard';
 
 // Register Chart.js components
 ChartJS.register(

@@ -19,7 +19,7 @@ import {
   CpuChipIcon,
 } from '@heroicons/react/24/outline';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 interface SidebarProps {
   isOpen: boolean;

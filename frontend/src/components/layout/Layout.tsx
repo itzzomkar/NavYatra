@@ -6,10 +6,10 @@ import { motion } from 'framer-motion';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import NotificationCenter from './NotificationCenter';
-import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import ErrorBoundary from '../../components/ui/ErrorBoundary';
 
 // Hooks
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 const Layout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

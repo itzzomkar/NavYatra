@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { schedulesApi, metroCarsApi } from '@/services/api';
+import { schedulesApi, metroCarsApi } from '../../services/api';
 
 interface CreateScheduleModalProps {
   isOpen: boolean;

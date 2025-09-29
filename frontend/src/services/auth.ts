@@ -1,5 +1,5 @@
 import { api, setAuthToken } from './api';
-import { User, AuthState } from '@/types';
+import { User, AuthState } from '../types';
 
 export interface LoginCredentials {
   email: string;

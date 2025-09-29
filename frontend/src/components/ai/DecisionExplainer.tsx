@@ -12,7 +12,7 @@ import {
   BoltIcon,
   CpuChipIcon,
 } from '@heroicons/react/24/outline';
-import Card from '@/components/ui/Card';
+import Card from '../../components/ui/Card';
 
 interface DecisionFactor {
   name: string;

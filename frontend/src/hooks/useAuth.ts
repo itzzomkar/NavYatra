@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { authService, LoginCredentials, ChangePasswordRequest } from '@/services/auth';
-import { User, AuthState } from '@/types';
+import { authService, LoginCredentials, ChangePasswordRequest } from '../services/auth';
+import { User, AuthState } from '../types';
 import toast from 'react-hot-toast';
 
 interface UseAuthReturn {

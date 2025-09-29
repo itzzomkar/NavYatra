@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { api } from '@/services/api';
-import { useAuth } from '@/hooks/useAuth';
+import { api } from '../services/api';
+import { useAuth } from '../hooks/useAuth';
 // Simple fitness assessment interface
 interface FitnessAssessment {
   _id: string;

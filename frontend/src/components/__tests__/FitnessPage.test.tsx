@@ -7,7 +7,7 @@ import FitnessPage from '../../pages/FitnessPage';
 
 // Mock dependencies
 jest.mock('react-hot-toast');
-jest.mock('@/hooks/useWebSocket', () => ({
+jest.mock('../../hooks/useWebSocket', () => ({
   useWebSocket: jest.fn(() => ({
     subscribeToFitness: jest.fn(),
     isConnected: true,
@@ -276,7 +276,7 @@ describe('FitnessPage', () => {
 
   it('handles WebSocket fitness updates', () => {
     const mockSubscribeToFitness = jest.fn();
-    const { useWebSocket } = require('@/hooks/useWebSocket');
+    const { useWebSocket } = require('../../hooks/useWebSocket');
     
     useWebSocket.mockImplementation(() => ({
       subscribeToFitness: mockSubscribeToFitness,

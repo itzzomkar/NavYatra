@@ -29,13 +29,13 @@ import {
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
-import { useAuth } from '@/hooks/useAuth';
-import Card from '@/components/ui/Card';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { schedulesApi } from '@/services/api';
-import CreateScheduleModal from '@/components/schedules/CreateScheduleModal';
-import EditScheduleModal from '@/components/schedules/EditScheduleModal';
-import ScheduleDetailsModal from '@/components/schedules/ScheduleDetailsModal';
+import { useAuth } from '../hooks/useAuth';
+import Card from '../components/ui/Card';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { schedulesApi } from '../services/api';
+import CreateScheduleModal from '../components/schedules/CreateScheduleModal';
+import EditScheduleModal from '../components/schedules/EditScheduleModal';
+import ScheduleDetailsModal from '../components/schedules/ScheduleDetailsModal';
 
 interface Schedule {
   _id: string;
