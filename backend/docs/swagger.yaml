@@ -1,0 +1,1186 @@
+openapi: 3.0.3
+info:
+  title: KMRL Train Induction System API
+  description: |
+    AI-driven train scheduling and optimization system for Kochi Metro Rail Limited (KMRL).
+    
+    This comprehensive API provides endpoints for managing trainsets, fitness certificates, 
+    job cards, schedules, analytics, and user management with real-time WebSocket support.
+    
+    ## Features
+    - **Trainset Management**: Complete CRUD operations for metro trainsets
+    - **Fitness Certificates**: Track and manage safety compliance certificates
+    - **Job Cards**: Integration with IBM Maximo for maintenance workflows
+    - **AI Optimization**: Advanced scheduling algorithms with machine learning
+    - **Real-time Updates**: WebSocket support for live data streaming
+    - **Analytics**: Comprehensive reporting and performance metrics
+    - **Security**: JWT-based authentication with role-based access control
+    
+    ## Authentication
+    This API uses JWT tokens for authentication. Include the token in the Authorization header:
+    ```
+    Authorization: Bearer <your-jwt-token>
+    ```
+  version: 1.0.0
+  contact:
+    name: KMRL Development Team
+    email: tech@kmrl.gov.in
+    url: https://kochimetro.org
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3001/api
+    description: Development server
+  - url: https://api.kmrl-train-system.gov.in/api
+    description: Production server
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization
+  - name: Users
+    description: User management operations
+  - name: Trainsets
+    description: Trainset management and tracking
+  - name: Fitness
+    description: Fitness certificate management
+  - name: Job Cards
+    description: Job card and maintenance workflow
+  - name: Schedules
+    description: Schedule management and optimization
+  - name: Analytics
+    description: Analytics and reporting
+  - name: System
+    description: System configuration and health
+
+paths:
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: User login
+      description: Authenticate user and receive JWT tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: admin@kmrl.gov.in
+                password:
+                  type: string
+                  format: password
+                  example: admin123!
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+                      tokens:
+                        type: object
+                        properties:
+                          access:
+                            type: string
+                            description: JWT access token
+                          refresh:
+                            type: string
+                            description: JWT refresh token
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /auth/refresh:
+    post:
+      tags: [Authentication]
+      summary: Refresh access token
+      description: Generate new access token using refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+                  description: Valid refresh token
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      tokens:
+                        type: object
+                        properties:
+                          access:
+                            type: string
+                          refresh:
+                            type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /auth/logout:
+    post:
+      tags: [Authentication]
+      summary: Logout user
+      description: Invalidate user tokens and logout
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Logout successful
+
+  /trainsets:
+    get:
+      tags: [Trainsets]
+      summary: Get all trainsets
+      description: Retrieve paginated list of trainsets with filtering and search
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+          description: Items per page
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/TrainsetStatus'
+          description: Filter by status
+        - name: depot
+          in: query
+          schema:
+            type: string
+          description: Filter by depot
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search in trainset number, manufacturer, model
+      responses:
+        '200':
+          description: Trainsets retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      trainsets:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Trainset'
+                      pagination:
+                        $ref: '#/components/schemas/Pagination'
+
+    post:
+      tags: [Trainsets]
+      summary: Create new trainset
+      description: Add a new trainset to the system
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainsetInput'
+      responses:
+        '201':
+          description: Trainset created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      trainset:
+                        $ref: '#/components/schemas/Trainset'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+  /trainsets/{id}:
+    get:
+      tags: [Trainsets]
+      summary: Get trainset by ID
+      description: Retrieve detailed information about a specific trainset
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Trainset ID
+      responses:
+        '200':
+          description: Trainset details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      trainset:
+                        $ref: '#/components/schemas/TrainsetDetailed'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      tags: [Trainsets]
+      summary: Update trainset
+      description: Update trainset information
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainsetInput'
+      responses:
+        '200':
+          description: Trainset updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      trainset:
+                        $ref: '#/components/schemas/Trainset'
+
+  /fitness:
+    get:
+      tags: [Fitness]
+      summary: Get fitness certificates
+      description: Retrieve paginated list of fitness certificates
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/FitnessStatus'
+        - name: expiringIn
+          in: query
+          schema:
+            type: integer
+          description: Find certificates expiring in N days
+      responses:
+        '200':
+          description: Fitness certificates retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      certificates:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FitnessCertificate'
+                      pagination:
+                        $ref: '#/components/schemas/Pagination'
+
+    post:
+      tags: [Fitness]
+      summary: Create fitness certificate
+      description: Create a new fitness certificate
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FitnessCertificateInput'
+      responses:
+        '201':
+          description: Fitness certificate created successfully
+
+  /job-cards:
+    get:
+      tags: [Job Cards]
+      summary: Get job cards
+      description: Retrieve paginated list of job cards
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/JobStatus'
+        - name: priority
+          in: query
+          schema:
+            $ref: '#/components/schemas/JobPriority'
+        - name: overdue
+          in: query
+          schema:
+            type: boolean
+          description: Filter overdue job cards
+      responses:
+        '200':
+          description: Job cards retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      jobCards:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/JobCard'
+                      pagination:
+                        $ref: '#/components/schemas/Pagination'
+
+  /job-cards/sync/maximo:
+    post:
+      tags: [Job Cards]
+      summary: Sync with Maximo
+      description: Synchronize job cards with IBM Maximo system
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Maximo sync completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Maximo sync completed
+                  data:
+                    type: object
+                    properties:
+                      syncedCount:
+                        type: integer
+                        example: 5
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                      timestamp:
+                        type: string
+                        format: date-time
+
+  /schedule/optimize:
+    post:
+      tags: [Schedules]
+      summary: Optimize schedule
+      description: Generate AI-optimized train induction schedule
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptimizationRequest'
+      responses:
+        '201':
+          description: Schedule optimization completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Schedule optimization completed successfully
+                  data:
+                    type: object
+                    properties:
+                      schedule:
+                        $ref: '#/components/schemas/Schedule'
+                      optimizationResult:
+                        $ref: '#/components/schemas/OptimizationResult'
+
+  /analytics/dashboard:
+    get:
+      tags: [Analytics]
+      summary: Get dashboard metrics
+      description: Retrieve comprehensive dashboard analytics
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Dashboard metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/DashboardMetrics'
+
+  /analytics/performance:
+    get:
+      tags: [Analytics]
+      summary: Get performance metrics
+      description: Retrieve system performance analytics
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: integer
+            default: 30
+          description: Analysis period in days
+      responses:
+        '200':
+          description: Performance metrics retrieved successfully
+
+  /users:
+    get:
+      tags: [Users]
+      summary: Get all users
+      description: Retrieve paginated list of users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+        - name: role
+          in: query
+          schema:
+            $ref: '#/components/schemas/UserRole'
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Users retrieved successfully
+
+    post:
+      tags: [Users]
+      summary: Create new user
+      description: Create a new user account
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: User created successfully
+
+  /health:
+    get:
+      tags: [System]
+      summary: Health check
+      description: Check system health status
+      responses:
+        '200':
+          description: System is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  timestamp:
+                    type: string
+                    format: date-time
+                  services:
+                    type: object
+                    properties:
+                      database:
+                        type: string
+                        example: connected
+                      redis:
+                        type: string
+                        example: connected
+                      server:
+                        type: string
+                        example: running
+        '500':
+          description: System is unhealthy
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    ForbiddenError:
+      description: Access forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    NotFoundError:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    ValidationError:
+      description: Invalid request data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrorResponse'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        path:
+          type: string
+        method:
+          type: string
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              msg:
+                type: string
+              param:
+                type: string
+              location:
+                type: string
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        pages:
+          type: integer
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+        lastName:
+          type: string
+        role:
+          $ref: '#/components/schemas/UserRole'
+        isActive:
+          type: boolean
+        lastLogin:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+
+    UserInput:
+      type: object
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+        - role
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        firstName:
+          type: string
+        lastName:
+          type: string
+        role:
+          $ref: '#/components/schemas/UserRole'
+        permissionIds:
+          type: array
+          items:
+            type: string
+
+    UserRole:
+      type: string
+      enum:
+        - ADMIN
+        - SUPERVISOR
+        - OPERATOR
+        - MAINTENANCE
+        - VIEWER
+
+    Trainset:
+      type: object
+      properties:
+        id:
+          type: string
+        trainsetNumber:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        yearOfManufacture:
+          type: integer
+        capacity:
+          type: integer
+        maxSpeed:
+          type: number
+        currentMileage:
+          type: number
+        totalMileage:
+          type: number
+        status:
+          $ref: '#/components/schemas/TrainsetStatus'
+        location:
+          type: string
+        depot:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    TrainsetInput:
+      type: object
+      required:
+        - trainsetNumber
+        - manufacturer
+        - model
+        - yearOfManufacture
+        - capacity
+        - maxSpeed
+        - depot
+      properties:
+        trainsetNumber:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        yearOfManufacture:
+          type: integer
+          minimum: 2000
+          maximum: 2030
+        capacity:
+          type: integer
+          minimum: 100
+        maxSpeed:
+          type: number
+          minimum: 50
+          maximum: 150
+        depot:
+          type: string
+
+    TrainsetDetailed:
+      allOf:
+        - $ref: '#/components/schemas/Trainset'
+        - type: object
+          properties:
+            fitnessRecords:
+              type: array
+              items:
+                $ref: '#/components/schemas/FitnessCertificate'
+            jobCards:
+              type: array
+              items:
+                $ref: '#/components/schemas/JobCard'
+            maintenanceRecords:
+              type: array
+              items:
+                $ref: '#/components/schemas/MaintenanceRecord'
+
+    TrainsetStatus:
+      type: string
+      enum:
+        - AVAILABLE
+        - IN_SERVICE
+        - MAINTENANCE
+        - OUT_OF_ORDER
+        - CLEANING
+        - DECOMMISSIONED
+
+    FitnessCertificate:
+      type: object
+      properties:
+        id:
+          type: string
+        trainsetId:
+          type: string
+        certificateNumber:
+          type: string
+        issueDate:
+          type: string
+          format: date
+        expiryDate:
+          type: string
+          format: date
+        status:
+          $ref: '#/components/schemas/FitnessStatus'
+        issuingAuthority:
+          type: string
+        remarks:
+          type: string
+        documents:
+          type: array
+          items:
+            type: string
+        iotData:
+          type: object
+        lastChecked:
+          type: string
+          format: date-time
+
+    FitnessCertificateInput:
+      type: object
+      required:
+        - trainsetId
+        - certificateNumber
+        - issueDate
+        - expiryDate
+        - status
+        - issuingAuthority
+      properties:
+        trainsetId:
+          type: string
+        certificateNumber:
+          type: string
+        issueDate:
+          type: string
+          format: date
+        expiryDate:
+          type: string
+          format: date
+        status:
+          $ref: '#/components/schemas/FitnessStatus'
+        issuingAuthority:
+          type: string
+        remarks:
+          type: string
+        documents:
+          type: array
+          items:
+            type: string
+
+    FitnessStatus:
+      type: string
+      enum:
+        - VALID
+        - EXPIRED
+        - PENDING
+        - INVALID
+        - UNDER_REVIEW
+
+    JobCard:
+      type: object
+      properties:
+        id:
+          type: string
+        trainsetId:
+          type: string
+        jobCardNumber:
+          type: string
+        maximoId:
+          type: string
+        priority:
+          $ref: '#/components/schemas/JobPriority'
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        workType:
+          type: string
+        description:
+          type: string
+        estimatedHours:
+          type: number
+        actualHours:
+          type: number
+        assignedTo:
+          type: string
+        scheduledDate:
+          type: string
+          format: date-time
+        completedDate:
+          type: string
+          format: date-time
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    JobStatus:
+      type: string
+      enum:
+        - PENDING
+        - IN_PROGRESS
+        - COMPLETED
+        - CANCELLED
+        - ON_HOLD
+
+    JobPriority:
+      type: string
+      enum:
+        - LOW
+        - MEDIUM
+        - HIGH
+        - CRITICAL
+        - EMERGENCY
+
+    MaintenanceRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        trainsetId:
+          type: string
+        type:
+          $ref: '#/components/schemas/MaintenanceType'
+        description:
+          type: string
+        performedBy:
+          type: string
+        performedAt:
+          type: string
+          format: date-time
+        nextDueDate:
+          type: string
+          format: date-time
+        cost:
+          type: number
+        parts:
+          type: object
+        notes:
+          type: string
+
+    MaintenanceType:
+      type: string
+      enum:
+        - PREVENTIVE
+        - CORRECTIVE
+        - EMERGENCY
+        - SCHEDULED
+        - INSPECTION
+
+    Schedule:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+          format: date-time
+        shift:
+          $ref: '#/components/schemas/Shift'
+        status:
+          $ref: '#/components/schemas/ScheduleStatus'
+        totalTrainsets:
+          type: integer
+        optimizationScore:
+          type: number
+        constraints:
+          type: object
+        metadata:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+
+    Shift:
+      type: string
+      enum:
+        - MORNING
+        - AFTERNOON
+        - EVENING
+        - NIGHT
+
+    ScheduleStatus:
+      type: string
+      enum:
+        - DRAFT
+        - ACTIVE
+        - COMPLETED
+        - CANCELLED
+        - GENERATED
+
+    OptimizationRequest:
+      type: object
+      properties:
+        constraints:
+          type: object
+          properties:
+            fitnessRequired:
+              type: boolean
+              default: true
+            priorityJobCards:
+              type: boolean
+              default: true
+            mileageBalancing:
+              type: boolean
+              default: true
+            brandingOptimization:
+              type: boolean
+              default: true
+        parameters:
+          type: object
+          properties:
+            optimizationWindow:
+              type: integer
+              default: 24
+            maxIterations:
+              type: integer
+              default: 1000
+            convergenceThreshold:
+              type: number
+              default: 0.001
+        preferences:
+          type: object
+          properties:
+            fitnessWeight:
+              type: number
+              default: 0.25
+            jobCardsWeight:
+              type: number
+              default: 0.20
+            mileageWeight:
+              type: number
+              default: 0.20
+
+    OptimizationResult:
+      type: object
+      properties:
+        id:
+          type: string
+        optimizationScore:
+          type: number
+        executionTime:
+          type: integer
+        recommendations:
+          type: array
+          items:
+            type: object
+            properties:
+              trainsetId:
+                type: string
+              priority:
+                type: integer
+              confidence:
+                type: number
+              reasons:
+                type: array
+                items:
+                  type: string
+              assignments:
+                type: object
+
+    DashboardMetrics:
+      type: object
+      properties:
+        trainsets:
+          type: object
+          properties:
+            total:
+              type: integer
+            statusBreakdown:
+              type: array
+              items:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  _count:
+                    type: integer
+            availabilityRate:
+              type: string
+        fitness:
+          type: object
+          properties:
+            total:
+              type: integer
+            valid:
+              type: integer
+            expired:
+              type: integer
+            expiringThisWeek:
+              type: integer
+            complianceRate:
+              type: string
+        jobCards:
+          type: object
+          properties:
+            total:
+              type: integer
+            active:
+              type: integer
+            completedThisMonth:
+              type: integer
+            overdue:
+              type: integer
+            averageCompletionTime:
+              type: number
+        timestamp:
+          type: string
+          format: date-time

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KMRL Backend Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f0f0f0; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; }
+        button { background: #0ea5e9; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 4px; white-space: pre-wrap; }
+        .success { border-left: 4px solid #10b981; }
+        .error { border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🚄 KMRL Backend Connection Test</h2>
+        <p>This page tests if your KMRL backend is working properly.</p>
+        
+        <button onclick="testHealth()">Test Health Check</button>
+        <button onclick="testLogin()">Test Login</button>
+        <button onclick="testTrainsets()">Test Trainsets API</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function addResult(message, isSuccess = true) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = 'result ' + (isSuccess ? 'success' : 'error');
+            div.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+
+        async function testHealth() {
+            try {
+                const response = await fetch('http://localhost:3001/health');
+                const data = await response.json();
+                addResult('✅ Health Check: ' + response.status + ' - ' + JSON.stringify(data, null, 2));
+            } catch (error) {
+                addResult('❌ Health Check Failed: ' + error.message, false);
+            }
+        }
+
+        async function testLogin() {
+            try {
+                const response = await fetch('http://localhost:3001/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'admin@kmrl.gov.in',
+                        password: 'admin123!'
+                    })
+                });
+                const data = await response.json();
+                addResult('✅ Login Test: ' + response.status + ' - ' + JSON.stringify(data, null, 2));
+                
+                // Store token for further tests
+                if (data.success) {
+                    window.authToken = data.data.token;
+                }
+            } catch (error) {
+                addResult('❌ Login Failed: ' + error.message, false);
+            }
+        }
+
+        async function testTrainsets() {
+            if (!window.authToken) {
+                addResult('❌ Please run Login Test first to get auth token', false);
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3001/api/trainsets', {
+                    headers: {
+                        'Authorization': 'Bearer ' + window.authToken
+                    }
+                });
+                const data = await response.json();
+                addResult('✅ Trainsets API: ' + response.status + ' - ' + JSON.stringify(data, null, 2));
+            } catch (error) {
+                addResult('❌ Trainsets API Failed: ' + error.message, false);
+            }
+        }
+
+        // Auto-run health check on page load
+        window.addEventListener('load', () => {
+            addResult('🚀 KMRL Backend Test Started');
+            testHealth();
+        });
+    </script>
+</body>
+</html>

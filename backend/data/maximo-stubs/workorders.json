@@ -1,0 +1,635 @@
+[
+  {
+    "workorderId": "WO-1758482912184-829",
+    "maximoId": "MAXIMO-517986",
+    "trainsetNumber": "KMRL-011",
+    "title": "CLEANING for KMRL-011",
+    "description": "Detailed work description for CLEANING on KMRL-011. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "CRITICAL",
+    "status": "ON_HOLD",
+    "department": "MECHANICAL",
+    "createdDate": "2025-08-24T19:28:32.184Z",
+    "dueDate": "2025-08-30T19:28:32.184Z",
+    "assignedTo": "tech_6",
+    "estimatedDuration": 186,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-360",
+    "maximoId": "MAXIMO-242812",
+    "trainsetNumber": "KMRL-012",
+    "title": "INSPECTION for KMRL-012",
+    "description": "Detailed work description for INSPECTION on KMRL-012. This is auto-generated sample data.",
+    "workType": "INSPECTION",
+    "priority": "CRITICAL",
+    "status": "OPEN",
+    "department": "INSPECTION",
+    "createdDate": "2025-09-11T19:28:32.184Z",
+    "dueDate": "2025-09-13T19:28:32.184Z",
+    "assignedTo": "tech_1",
+    "estimatedDuration": 224,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-838",
+    "maximoId": "MAXIMO-875317",
+    "trainsetNumber": "KMRL-004",
+    "title": "SAFETY_CHECK for KMRL-004",
+    "description": "Detailed work description for SAFETY_CHECK on KMRL-004. This is auto-generated sample data.",
+    "workType": "SAFETY_CHECK",
+    "priority": "MEDIUM",
+    "status": "ON_HOLD",
+    "department": "MECHANICAL",
+    "createdDate": "2025-09-08T19:28:32.184Z",
+    "dueDate": "2025-09-12T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 56,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-1"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-6143",
+        "partName": "Sample Part 1",
+        "quantity": 3,
+        "cost": 326
+      },
+      {
+        "partNumber": "PART-2221",
+        "partName": "Sample Part 2",
+        "quantity": 1,
+        "cost": 470
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-649",
+    "maximoId": "MAXIMO-863951",
+    "trainsetNumber": "KMRL-021",
+    "title": "CLEANING for KMRL-021",
+    "description": "Detailed work description for CLEANING on KMRL-021. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "HIGH",
+    "status": "ON_HOLD",
+    "department": "CLEANING",
+    "createdDate": "2025-08-26T19:28:32.184Z",
+    "dueDate": "2025-09-01T19:28:32.184Z",
+    "assignedTo": "tech_6",
+    "estimatedDuration": 140,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-1"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-48",
+    "maximoId": "MAXIMO-254622",
+    "trainsetNumber": "KMRL-025",
+    "title": "PREVENTIVE_MAINTENANCE for KMRL-025",
+    "description": "Detailed work description for PREVENTIVE_MAINTENANCE on KMRL-025. This is auto-generated sample data.",
+    "workType": "PREVENTIVE_MAINTENANCE",
+    "priority": "LOW",
+    "status": "ON_HOLD",
+    "department": "INSPECTION",
+    "createdDate": "2025-09-20T19:28:32.184Z",
+    "dueDate": "2025-10-03T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 141,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-2"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-340",
+    "maximoId": "MAXIMO-514646",
+    "trainsetNumber": "KMRL-024",
+    "title": "INSPECTION for KMRL-024",
+    "description": "Detailed work description for INSPECTION on KMRL-024. This is auto-generated sample data.",
+    "workType": "INSPECTION",
+    "priority": "MEDIUM",
+    "status": "ON_HOLD",
+    "department": "MAINTENANCE",
+    "createdDate": "2025-09-14T19:28:32.184Z",
+    "dueDate": "2025-09-22T19:28:32.184Z",
+    "assignedTo": "tech_4",
+    "estimatedDuration": 245,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-3"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-8510",
+        "partName": "Sample Part 1",
+        "quantity": 1,
+        "cost": 96
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-249",
+    "maximoId": "MAXIMO-126947",
+    "trainsetNumber": "KMRL-009",
+    "title": "CLEANING for KMRL-009",
+    "description": "Detailed work description for CLEANING on KMRL-009. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "MEDIUM",
+    "status": "IN_PROGRESS",
+    "department": "SAFETY",
+    "createdDate": "2025-09-11T19:28:32.184Z",
+    "dueDate": "2025-09-23T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 51,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-1"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-377",
+    "maximoId": "MAXIMO-12748",
+    "trainsetNumber": "KMRL-017",
+    "title": "INSPECTION for KMRL-017",
+    "description": "Detailed work description for INSPECTION on KMRL-017. This is auto-generated sample data.",
+    "workType": "INSPECTION",
+    "priority": "CRITICAL",
+    "status": "OPEN",
+    "department": "CLEANING",
+    "createdDate": "2025-08-31T19:28:32.184Z",
+    "dueDate": "2025-09-05T19:28:32.184Z",
+    "assignedTo": "tech_2",
+    "estimatedDuration": 77,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-240",
+    "maximoId": "MAXIMO-968736",
+    "trainsetNumber": "KMRL-001",
+    "title": "PREVENTIVE_MAINTENANCE for KMRL-001",
+    "description": "Detailed work description for PREVENTIVE_MAINTENANCE on KMRL-001. This is auto-generated sample data.",
+    "workType": "PREVENTIVE_MAINTENANCE",
+    "priority": "CRITICAL",
+    "status": "ON_HOLD",
+    "department": "MAINTENANCE",
+    "createdDate": "2025-09-19T19:28:32.184Z",
+    "dueDate": "2025-09-24T19:28:32.184Z",
+    "assignedTo": "tech_7",
+    "estimatedDuration": 120,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-3"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-511",
+    "maximoId": "MAXIMO-938047",
+    "trainsetNumber": "KMRL-005",
+    "title": "CORRECTIVE_MAINTENANCE for KMRL-005",
+    "description": "Detailed work description for CORRECTIVE_MAINTENANCE on KMRL-005. This is auto-generated sample data.",
+    "workType": "CORRECTIVE_MAINTENANCE",
+    "priority": "HIGH",
+    "status": "IN_PROGRESS",
+    "department": "MAINTENANCE",
+    "createdDate": "2025-09-21T19:28:32.184Z",
+    "dueDate": "2025-09-22T19:28:32.184Z",
+    "assignedTo": "tech_9",
+    "estimatedDuration": 181,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-3"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-476",
+    "maximoId": "MAXIMO-300078",
+    "trainsetNumber": "KMRL-016",
+    "title": "SAFETY_CHECK for KMRL-016",
+    "description": "Detailed work description for SAFETY_CHECK on KMRL-016. This is auto-generated sample data.",
+    "workType": "SAFETY_CHECK",
+    "priority": "MEDIUM",
+    "status": "COMPLETED",
+    "department": "CLEANING",
+    "createdDate": "2025-08-24T19:28:32.184Z",
+    "dueDate": "2025-08-26T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 246,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-5"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-146",
+        "partName": "Sample Part 1",
+        "quantity": 4,
+        "cost": 240
+      },
+      {
+        "partNumber": "PART-8348",
+        "partName": "Sample Part 2",
+        "quantity": 1,
+        "cost": 182
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-238",
+    "maximoId": "MAXIMO-816701",
+    "trainsetNumber": "KMRL-012",
+    "title": "PREVENTIVE_MAINTENANCE for KMRL-012",
+    "description": "Detailed work description for PREVENTIVE_MAINTENANCE on KMRL-012. This is auto-generated sample data.",
+    "workType": "PREVENTIVE_MAINTENANCE",
+    "priority": "LOW",
+    "status": "ON_HOLD",
+    "department": "ELECTRICAL",
+    "createdDate": "2025-09-19T19:28:32.184Z",
+    "dueDate": "2025-09-26T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 80,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-2502",
+        "partName": "Sample Part 1",
+        "quantity": 4,
+        "cost": 184
+      },
+      {
+        "partNumber": "PART-722",
+        "partName": "Sample Part 2",
+        "quantity": 1,
+        "cost": 134
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-883",
+    "maximoId": "MAXIMO-296303",
+    "trainsetNumber": "KMRL-007",
+    "title": "REPAIR for KMRL-007",
+    "description": "Detailed work description for REPAIR on KMRL-007. This is auto-generated sample data.",
+    "workType": "REPAIR",
+    "priority": "CRITICAL",
+    "status": "ON_HOLD",
+    "department": "CLEANING",
+    "createdDate": "2025-09-11T19:28:32.184Z",
+    "dueDate": "2025-09-24T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 62,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-3"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-7639",
+        "partName": "Sample Part 1",
+        "quantity": 1,
+        "cost": 304
+      },
+      {
+        "partNumber": "PART-6261",
+        "partName": "Sample Part 2",
+        "quantity": 2,
+        "cost": 314
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-139",
+    "maximoId": "MAXIMO-940005",
+    "trainsetNumber": "KMRL-005",
+    "title": "PREVENTIVE_MAINTENANCE for KMRL-005",
+    "description": "Detailed work description for PREVENTIVE_MAINTENANCE on KMRL-005. This is auto-generated sample data.",
+    "workType": "PREVENTIVE_MAINTENANCE",
+    "priority": "LOW",
+    "status": "OPEN",
+    "department": "CLEANING",
+    "createdDate": "2025-08-28T19:28:32.184Z",
+    "dueDate": "2025-09-09T19:28:32.184Z",
+    "assignedTo": "tech_6",
+    "estimatedDuration": 170,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-5"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-482",
+    "maximoId": "MAXIMO-464186",
+    "trainsetNumber": "KMRL-024",
+    "title": "CLEANING for KMRL-024",
+    "description": "Detailed work description for CLEANING on KMRL-024. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "MEDIUM",
+    "status": "ON_HOLD",
+    "department": "INSPECTION",
+    "createdDate": "2025-09-09T19:28:32.184Z",
+    "dueDate": "2025-09-18T19:28:32.184Z",
+    "assignedTo": "tech_1",
+    "estimatedDuration": 138,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-1388",
+        "partName": "Sample Part 1",
+        "quantity": 5,
+        "cost": 130
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-507",
+    "maximoId": "MAXIMO-629049",
+    "trainsetNumber": "KMRL-004",
+    "title": "CLEANING for KMRL-004",
+    "description": "Detailed work description for CLEANING on KMRL-004. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "CRITICAL",
+    "status": "ON_HOLD",
+    "department": "CLEANING",
+    "createdDate": "2025-08-31T19:28:32.184Z",
+    "dueDate": "2025-09-13T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 42,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-9748",
+        "partName": "Sample Part 1",
+        "quantity": 2,
+        "cost": 111
+      },
+      {
+        "partNumber": "PART-2923",
+        "partName": "Sample Part 2",
+        "quantity": 3,
+        "cost": 165
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-340",
+    "maximoId": "MAXIMO-52899",
+    "trainsetNumber": "KMRL-014",
+    "title": "CLEANING for KMRL-014",
+    "description": "Detailed work description for CLEANING on KMRL-014. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "HIGH",
+    "status": "OPEN",
+    "department": "SAFETY",
+    "createdDate": "2025-09-04T19:28:32.184Z",
+    "dueDate": "2025-09-12T19:28:32.184Z",
+    "assignedTo": "tech_10",
+    "estimatedDuration": 56,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-2"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-6873",
+        "partName": "Sample Part 1",
+        "quantity": 3,
+        "cost": 321
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-752",
+    "maximoId": "MAXIMO-107718",
+    "trainsetNumber": "KMRL-002",
+    "title": "INSPECTION for KMRL-002",
+    "description": "Detailed work description for INSPECTION on KMRL-002. This is auto-generated sample data.",
+    "workType": "INSPECTION",
+    "priority": "MEDIUM",
+    "status": "COMPLETED",
+    "department": "SAFETY",
+    "createdDate": "2025-09-02T19:28:32.184Z",
+    "dueDate": "2025-09-14T19:28:32.184Z",
+    "assignedTo": "tech_1",
+    "estimatedDuration": 43,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-4630",
+        "partName": "Sample Part 1",
+        "quantity": 4,
+        "cost": 363
+      },
+      {
+        "partNumber": "PART-4294",
+        "partName": "Sample Part 2",
+        "quantity": 5,
+        "cost": 206
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-453",
+    "maximoId": "MAXIMO-145889",
+    "trainsetNumber": "KMRL-010",
+    "title": "CLEANING for KMRL-010",
+    "description": "Detailed work description for CLEANING on KMRL-010. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "HIGH",
+    "status": "COMPLETED",
+    "department": "MECHANICAL",
+    "createdDate": "2025-09-03T19:28:32.184Z",
+    "dueDate": "2025-09-12T19:28:32.184Z",
+    "assignedTo": "tech_9",
+    "estimatedDuration": 163,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-3"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-540",
+    "maximoId": "MAXIMO-966209",
+    "trainsetNumber": "KMRL-020",
+    "title": "SAFETY_CHECK for KMRL-020",
+    "description": "Detailed work description for SAFETY_CHECK on KMRL-020. This is auto-generated sample data.",
+    "workType": "SAFETY_CHECK",
+    "priority": "LOW",
+    "status": "OPEN",
+    "department": "MECHANICAL",
+    "createdDate": "2025-09-05T19:28:32.184Z",
+    "dueDate": "2025-09-16T19:28:32.184Z",
+    "assignedTo": "tech_7",
+    "estimatedDuration": 117,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-17",
+    "maximoId": "MAXIMO-101047",
+    "trainsetNumber": "KMRL-001",
+    "title": "PREVENTIVE_MAINTENANCE for KMRL-001",
+    "description": "Detailed work description for PREVENTIVE_MAINTENANCE on KMRL-001. This is auto-generated sample data.",
+    "workType": "PREVENTIVE_MAINTENANCE",
+    "priority": "CRITICAL",
+    "status": "IN_PROGRESS",
+    "department": "INSPECTION",
+    "createdDate": "2025-09-16T19:28:32.184Z",
+    "dueDate": "2025-09-25T19:28:32.184Z",
+    "assignedTo": "tech_1",
+    "estimatedDuration": 150,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-2077",
+        "partName": "Sample Part 1",
+        "quantity": 4,
+        "cost": 495
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-764",
+    "maximoId": "MAXIMO-858388",
+    "trainsetNumber": "KMRL-024",
+    "title": "CLEANING for KMRL-024",
+    "description": "Detailed work description for CLEANING on KMRL-024. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "CRITICAL",
+    "status": "IN_PROGRESS",
+    "department": "MECHANICAL",
+    "createdDate": "2025-08-28T19:28:32.184Z",
+    "dueDate": "2025-08-29T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 220,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-4"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-4545",
+        "partName": "Sample Part 1",
+        "quantity": 2,
+        "cost": 236
+      },
+      {
+        "partNumber": "PART-968",
+        "partName": "Sample Part 2",
+        "quantity": 5,
+        "cost": 382
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-69",
+    "maximoId": "MAXIMO-298575",
+    "trainsetNumber": "KMRL-020",
+    "title": "CLEANING for KMRL-020",
+    "description": "Detailed work description for CLEANING on KMRL-020. This is auto-generated sample data.",
+    "workType": "CLEANING",
+    "priority": "LOW",
+    "status": "IN_PROGRESS",
+    "department": "MECHANICAL",
+    "createdDate": "2025-09-19T19:28:32.184Z",
+    "dueDate": "2025-10-01T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 168,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-1"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-1783",
+        "partName": "Sample Part 1",
+        "quantity": 3,
+        "cost": 101
+      }
+    ]
+  },
+  {
+    "workorderId": "WO-1758482912184-274",
+    "maximoId": "MAXIMO-831647",
+    "trainsetNumber": "KMRL-021",
+    "title": "INSPECTION for KMRL-021",
+    "description": "Detailed work description for INSPECTION on KMRL-021. This is auto-generated sample data.",
+    "workType": "INSPECTION",
+    "priority": "MEDIUM",
+    "status": "COMPLETED",
+    "department": "MAINTENANCE",
+    "createdDate": "2025-09-15T19:28:32.184Z",
+    "dueDate": "2025-09-22T19:28:32.184Z",
+    "assignedTo": "tech_7",
+    "estimatedDuration": 176,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-1"
+    },
+    "parts": []
+  },
+  {
+    "workorderId": "WO-1758482912184-87",
+    "maximoId": "MAXIMO-132504",
+    "trainsetNumber": "KMRL-016",
+    "title": "CORRECTIVE_MAINTENANCE for KMRL-016",
+    "description": "Detailed work description for CORRECTIVE_MAINTENANCE on KMRL-016. This is auto-generated sample data.",
+    "workType": "CORRECTIVE_MAINTENANCE",
+    "priority": "LOW",
+    "status": "ON_HOLD",
+    "department": "ELECTRICAL",
+    "createdDate": "2025-09-19T19:28:32.184Z",
+    "dueDate": "2025-09-30T19:28:32.184Z",
+    "assignedTo": null,
+    "estimatedDuration": 36,
+    "location": {
+      "depot": "MUTTOM",
+      "bay": "Bay-5"
+    },
+    "parts": [
+      {
+        "partNumber": "PART-1278",
+        "partName": "Sample Part 1",
+        "quantity": 3,
+        "cost": 388
+      }
+    ]
+  }
+]

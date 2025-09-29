@@ -1,0 +1,68 @@
+/* Custom styles for date inputs */
+.date-input {
+  position: relative;
+  width: 100%;
+}
+
+/* Style the date input */
+input[type="date"] {
+  padding-right: 2.5rem !important;
+  cursor: pointer;
+  background-color: white !important;
+  color: #1f2937 !important; /* text-gray-800 */
+}
+
+/* Style the calendar icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  opacity: 0.6;
+  filter: invert(0.5);
+  width: 20px;
+  height: 20px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* For Firefox */
+input[type="date"]::-moz-calendar-picker-indicator {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  opacity: 0.6;
+  filter: invert(0.5);
+}
+
+/* Ensure date value doesn't overlap with icon */
+input[type="date"]::-webkit-datetime-edit {
+  padding-right: 1em;
+  color: #1f2937 !important;
+}
+
+input[type="date"]::-webkit-datetime-edit-text {
+  color: #1f2937 !important;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field {
+  color: #1f2937 !important;
+}
+
+input[type="date"]::-webkit-datetime-edit-day-field {
+  color: #1f2937 !important;
+}
+
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #1f2937 !important;
+}
+
+/* Dark mode support */
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.dark input[type="date"]::-moz-calendar-picker-indicator {
+  filter: invert(1);
+}

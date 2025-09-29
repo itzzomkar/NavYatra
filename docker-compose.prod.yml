@@ -1,0 +1,330 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: kmrl-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/prod.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/ssl:/etc/ssl/certs:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: kmrl-postgres
+    environment:
+      POSTGRES_DB: kmrl_train_db
+      POSTGRES_USER: kmrl_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ./database/init-prod.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./database/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    command: |
+      postgres
+      -c config_file=/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kmrl_user -d kmrl_train_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  redis:
+    image: redis:7-alpine
+    container_name: kmrl-redis
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru --save 900 1 --save 300 10 --save 60 10000
+    volumes:
+      - redis_prod_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 768M
+        reservations:
+          cpus: '0.2'
+          memory: 256M
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+      args:
+        NODE_ENV: production
+    container_name: kmrl-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://kmrl_user:${POSTGRES_PASSWORD}@postgres:5432/kmrl_train_db
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+      AI_SERVICE_URL: http://ai-service:8001
+      FRONTEND_URL: ${FRONTEND_URL}
+      LOG_LEVEL: info
+    volumes:
+      - ./logs/backend:/app/logs
+      - ./uploads:/app/uploads
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    healthcheck:
+      test: ["CMD", "node", "dist/health-check.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile.prod
+    container_name: kmrl-ai-service
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8001
+      DEBUG: false
+      DATABASE_URL: postgresql://kmrl_user:${POSTGRES_PASSWORD}@postgres:5432/kmrl_train_db
+      REDIS_URL: redis://redis:6379
+      MAX_OPTIMIZATION_TIME: 180
+      ENABLE_PARALLEL_PROCESSING: true
+      MAX_WORKERS: 8
+      LOG_LEVEL: INFO
+      MODEL_PATH: /app/models
+    volumes:
+      - ./logs/ai-service:/app/logs
+      - ./ai-service/models:/app/models
+      - ./ai-service/cache:/app/cache
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8001/health/status', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL}
+        REACT_APP_AI_SERVICE_URL: ${REACT_APP_AI_SERVICE_URL}
+        REACT_APP_WS_URL: ${REACT_APP_WS_URL}
+    container_name: kmrl-frontend
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/", "||", "exit", "1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+
+  # Monitoring Services
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: kmrl-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/rules:/etc/prometheus/rules:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    depends_on:
+      - backend
+      - ai-service
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: kmrl-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: false
+      GF_SECURITY_SECRET_KEY: ${GRAFANA_SECRET_KEY}
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    depends_on:
+      - prometheus
+
+  # Log Aggregation
+  elasticsearch:
+    image: elasticsearch:7.15.0
+    container_name: kmrl-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xmx1g -Xms1g
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+  logstash:
+    image: logstash:7.15.0
+    container_name: kmrl-logstash
+    volumes:
+      - ./monitoring/logstash/config:/usr/share/logstash/pipeline:ro
+      - ./monitoring/logstash/settings:/usr/share/logstash/config:ro
+      - ./logs:/logs:ro
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+    environment:
+      LS_JAVA_OPTS: "-Xmx512m -Xms512m"
+
+  kibana:
+    image: kibana:7.15.0
+    container_name: kmrl-kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    networks:
+      - kmrl-network
+
+  # Backup Service
+  backup:
+    image: postgres:15-alpine
+    container_name: kmrl-backup
+    volumes:
+      - ./backups:/backups
+      - ./scripts/backup-db.sh:/backup-db.sh:ro
+      - ./scripts/backup-app.sh:/backup-app.sh:ro
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: kmrl_user
+      POSTGRES_DB: kmrl_train_db
+    depends_on:
+      - postgres
+    restart: "no"
+    networks:
+      - kmrl-network
+    profiles:
+      - backup
+    command: ["sh", "-c", "while true; do sleep 86400; done"]
+
+networks:
+  kmrl-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  postgres_prod_data:
+    driver: local
+  redis_prod_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  elasticsearch_data:
+    driver: local

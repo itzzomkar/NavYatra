@@ -1,0 +1,66 @@
+# FastAPI and web framework dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Database and ORM
+psycopg2-binary==2.9.9
+SQLAlchemy==2.0.23
+alembic==1.13.1
+
+# Redis for caching
+redis==5.0.1
+
+# OR-Tools for optimization
+ortools==9.8.3296
+
+# Machine Learning
+scikit-learn==1.3.2
+numpy==1.24.4
+pandas==2.1.4
+joblib==1.3.2
+
+# HTTP client for API calls
+httpx==0.25.2
+requests==2.31.0
+
+# Async support
+asyncio-mqtt==0.16.1
+aioredis==2.0.1
+
+# Data validation and serialization
+marshmallow==3.20.1
+
+# Logging and monitoring
+loguru==0.7.2
+prometheus-client==0.19.0
+
+# Scientific computing
+scipy==1.11.4
+matplotlib==3.8.2
+
+# Configuration management
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.2
+
+# Development tools
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+
+# Security
+cryptography==41.0.8
+python-jose[cryptography]==3.3.0
+
+# Time and date handling
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Environment and process management
+python-multipart==0.0.6

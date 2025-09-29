@@ -1,0 +1,364 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Custom CSS variables for KMRL theme */
+:root {
+  --kmrl-primary: #0ea5e9;
+  --kmrl-primary-dark: #0284c7;
+  --kmrl-secondary: #64748b;
+  --kmrl-accent: #10b981;
+  --kmrl-warning: #f59e0b;
+  --kmrl-danger: #ef4444;
+  --kmrl-success: #10b981;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Fix for input text visibility */
+input, textarea, select {
+  color: rgb(17, 24, 39) !important; /* text-gray-900 */
+  background-color: white !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgb(156, 163, 175) !important; /* text-gray-400 */
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* What-If Simulator specific overrides for text visibility */
+.whatif-text-fix {
+  color: rgb(17, 24, 39) !important; /* Ensure dark text */
+  font-weight: 500 !important;
+}
+
+.whatif-text-fix h1,
+.whatif-text-fix h2,
+.whatif-text-fix h3,
+.whatif-text-fix h4,
+.whatif-text-fix h5,
+.whatif-text-fix h6 {
+  color: rgb(17, 24, 39) !important;
+  font-weight: 700 !important;
+}
+
+.whatif-text-fix p,
+.whatif-text-fix span,
+.whatif-text-fix div {
+  color: rgb(55, 65, 81) !important; /* text-gray-700 */
+}
+
+.whatif-text-fix .text-gray-600,
+.whatif-text-fix .text-gray-500 {
+  color: rgb(75, 85, 99) !important; /* text-gray-600 - darker than original */
+}
+
+/* Force visibility for all text in What-If Simulator */
+.whatif-text-fix * {
+  color: rgb(55, 65, 81) !important;
+}
+
+.whatif-text-fix .text-white {
+  color: white !important;
+}
+
+.whatif-text-fix .text-green-600,
+.whatif-text-fix .text-green-700 {
+  color: rgb(21, 128, 61) !important;
+}
+
+.whatif-text-fix .text-red-600,
+.whatif-text-fix .text-red-700 {
+  color: rgb(185, 28, 28) !important;
+}
+
+.whatif-text-fix .text-blue-600,
+.whatif-text-fix .text-blue-700 {
+  color: rgb(29, 78, 216) !important;
+}
+
+.whatif-text-fix .text-purple-600 {
+  color: rgb(147, 51, 234) !important;
+}
+
+.whatif-text-fix .text-yellow-600,
+.whatif-text-fix .text-yellow-700 {
+  color: rgb(202, 138, 4) !important;
+}
+
+/* Static SVG charts - no animations by design */
+.whatif-text-fix svg {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+/* Ensure SVG elements remain static */
+.whatif-text-fix svg * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Custom component classes */
+@layer components {
+  /* Button variants */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-kmrl-600 text-white hover:bg-kmrl-700 focus:ring-kmrl-500;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500;
+  }
+
+  .btn-success {
+    @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
+  }
+
+  .btn-warning {
+    @apply bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+
+  .btn-outline {
+    @apply border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200;
+  }
+
+  .card-header {
+    @apply px-6 py-4 border-b border-gray-200;
+  }
+
+  .card-body {
+    @apply px-6 py-4;
+  }
+
+  .card-footer {
+    @apply px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-lg;
+  }
+
+  /* Status indicators */
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .status-available {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .status-maintenance {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+
+  .status-cleaning {
+    @apply bg-blue-100 text-blue-800;
+  }
+
+  .status-out-of-order {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .status-in-service {
+    @apply bg-purple-100 text-purple-800;
+  }
+
+  /* Priority indicators */
+  .priority-low {
+    @apply text-gray-600;
+  }
+
+  .priority-medium {
+    @apply text-yellow-600;
+  }
+
+  .priority-high {
+    @apply text-orange-600;
+  }
+
+  .priority-critical {
+    @apply text-red-600;
+  }
+
+  .priority-emergency {
+    @apply text-red-800;
+  }
+
+  /* Form styles */
+  .form-input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-kmrl-500 focus:border-kmrl-500 sm:text-sm;
+  }
+
+  .form-select {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-kmrl-500 focus:border-kmrl-500 sm:text-sm;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+
+  .form-error {
+    @apply text-sm text-red-600 mt-1;
+  }
+
+  /* Loading states */
+  .loading-spinner {
+    @apply inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin;
+  }
+
+  /* Data table */
+  .data-table {
+    @apply w-full divide-y divide-gray-200;
+  }
+
+  .data-table thead {
+    @apply bg-gray-50;
+  }
+
+  .data-table th {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+  }
+
+  .data-table tbody {
+    @apply bg-white divide-y divide-gray-200;
+  }
+
+  .data-table td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+  }
+
+  /* Sidebar navigation */
+  .nav-item {
+    @apply flex items-center px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200;
+  }
+
+  .nav-item.active {
+    @apply bg-kmrl-100 text-kmrl-900;
+  }
+
+  .nav-item .nav-icon {
+    @apply w-5 h-5 mr-3 text-gray-400;
+  }
+
+  .nav-item.active .nav-icon {
+    @apply text-kmrl-600;
+  }
+
+  /* Metrics cards */
+  .metric-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+
+  .metric-card .metric-value {
+    @apply text-3xl font-bold text-gray-900;
+  }
+
+  .metric-card .metric-label {
+    @apply text-sm font-medium text-gray-500 mt-1;
+  }
+
+  .metric-card .metric-change {
+    @apply flex items-center text-sm font-medium mt-2;
+  }
+
+  .metric-card .metric-change.positive {
+    @apply text-green-600;
+  }
+
+  .metric-card .metric-change.negative {
+    @apply text-red-600;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(203 213 225) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(203 213 225);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(148 163 184);
+  }
+}
+
+/* Animation keyframes */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}

@@ -1,0 +1,187 @@
+// Simplified Prisma schema for SQLite
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// User Management
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  firstName   String
+  lastName    String
+  role        String   // SQLite doesn't support enums, use strings
+  isActive    Boolean  @default(true)
+  lastLogin   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("users")
+}
+
+// Trainset Management  
+model Trainset {
+  id                String      @id @default(cuid())
+  trainsetNumber    String      @unique
+  manufacturer      String
+  model             String
+  yearOfManufacture Int
+  capacity          Int
+  maxSpeed          Float
+  currentMileage    Float       @default(0)
+  totalMileage      Float       @default(0)
+  status            String      @default("AVAILABLE") // Use string instead of enum
+  location          String?
+  depot             String
+  isActive          Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  // Relations
+  fitnessRecords    FitnessCertificate[]
+  jobCards          JobCard[]
+  brandingRecords   BrandingRecord[]
+  mileageRecords    MileageRecord[]
+  scheduleEntries   ScheduleEntry[]
+
+  @@map("trainsets")
+}
+
+// Fitness Certificate Management
+model FitnessCertificate {
+  id            String            @id @default(cuid())
+  trainsetId    String
+  certificateNumber String        @unique
+  issueDate     DateTime
+  expiryDate    DateTime
+  status        String            // Use string instead of enum
+  issuingAuthority String
+  remarks       String?
+  documents     String?           // Store as JSON string
+  lastChecked   DateTime?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  // Relations
+  trainset Trainset @relation(fields: [trainsetId], references: [id], onDelete: Cascade)
+
+  @@map("fitness_certificates")
+}
+
+// Job Card Management
+model JobCard {
+  id            String        @id @default(cuid())
+  trainsetId    String
+  jobCardNumber String        @unique
+  maximoId      String?       
+  priority      String        // Use string instead of enum
+  status        String        // Use string instead of enum
+  workType      String
+  description   String
+  estimatedHours Float?
+  actualHours   Float?
+  assignedTo    String?
+  scheduledDate DateTime?
+  completedDate DateTime?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  trainset Trainset @relation(fields: [trainsetId], references: [id], onDelete: Cascade)
+
+  @@map("job_cards")
+}
+
+// Branding exposure tracking for SLA compliance
+model BrandingRecord {
+  id            String     @id @default(cuid())
+  trainsetId    String
+  campaignName  String
+  priority      Int        @default(0) // higher = more important
+  slaHoursTarget Int       @default(0)
+  hoursDelivered Int       @default(0)
+  startDate     DateTime
+  endDate       DateTime
+  updatedAt     DateTime   @updatedAt
+  createdAt     DateTime   @default(now())
+
+  // Relations
+  trainset Trainset @relation(fields: [trainsetId], references: [id], onDelete: Cascade)
+
+  @@map("branding_records")
+}
+
+// Daily mileage tracking
+model MileageRecord {
+  id         String   @id @default(cuid())
+  trainsetId String
+  date       DateTime
+  km         Float
+  createdAt  DateTime @default(now())
+
+  trainset Trainset @relation(fields: [trainsetId], references: [id], onDelete: Cascade)
+
+  @@map("mileage_records")
+}
+
+// Cleaning/Detaling bay capacity per slot
+model CleaningSlot {
+  id         String   @id @default(cuid())
+  date       DateTime
+  bayName    String
+  startTime  DateTime
+  endTime    DateTime
+  capacity   Int      @default(1) // number of trainsets that can be handled
+  createdAt  DateTime @default(now())
+
+  @@map("cleaning_slots")
+}
+
+// Stabling positions (including IBL)
+model StablingPosition {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  depot     String
+  isIBL     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  scheduleEntries ScheduleEntry[]
+
+  @@map("stabling_positions")
+}
+
+// Generated schedules
+model Schedule {
+  id        String   @id @default(cuid())
+  date      DateTime
+  status    String   @default("DRAFT")
+  createdAt DateTime @default(now())
+  entries   ScheduleEntry[]
+
+  @@map("schedules")
+}
+
+model ScheduleEntry {
+  id                 String   @id @default(cuid())
+  scheduleId         String
+  trainsetId         String
+  decision           String
+  score              Float    @default(0)
+  reasons            String?  // JSON string array
+  conflicts          String?  // JSON string array
+  stablingPositionId String?
+  createdAt          DateTime @default(now())
+
+  schedule Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  trainset Trainset @relation(fields: [trainsetId], references: [id], onDelete: Cascade)
+  stablingPosition StablingPosition? @relation(fields: [stablingPositionId], references: [id])
+
+  @@map("schedule_entries")
+}

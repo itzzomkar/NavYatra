@@ -1,0 +1,50 @@
+{
+  "name": "backend-auth-system",
+  "version": "1.0.0",
+  "description": "Full-stack authentication system with Node.js, Express, and MongoDB",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "start-all": "concurrently \"npm run start-db\" \"npm run dev\" --names \"MongoDB,API\" --prefix-colors \"cyan,yellow\" --kill-others-on-fail",
+    "start-db": "node scripts/start-mongodb.js",
+    "dev-all": "concurrently \"npm run start-db\" \"npm run dev\" --names \"MongoDB,API\" --prefix-colors \"cyan,yellow\" --kill-others-on-fail",
+    "everything": "node start-everything.js",
+    "all": "node start-everything.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-api": "node test-api.js"
+  },
+  "keywords": [
+    "authentication",
+    "nodejs",
+    "express",
+    "mongodb",
+    "jwt",
+    "bcrypt"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.12.1",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "exceljs": "^4.4.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.1",
+    "node-cron": "^4.2.1",
+    "pdfkit": "^0.17.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10"
+  }
+}

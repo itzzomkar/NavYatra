@@ -1,0 +1,515 @@
+/* AI Insights Page - Text Visibility and Contrast Fixes */
+
+/* Ensure all text is visible with proper contrast */
+.ai-insights-page * {
+  color: inherit !important;
+}
+
+/* Fix any transparent or invisible text */
+.ai-insights-page .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+.ai-insights-page .text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.ai-insights-page .text-gray-700 {
+  color: #374151 !important;
+}
+
+.ai-insights-page .text-gray-900 {
+  color: #111827 !important;
+}
+
+/* Ensure cards have solid backgrounds */
+.ai-insights-page .card {
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+/* Force visibility on all text elements */
+.ai-insights-page h1,
+.ai-insights-page h2, 
+.ai-insights-page h3,
+.ai-insights-page h4,
+.ai-insights-page p,
+.ai-insights-page span,
+.ai-insights-page div {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure input fields are visible */
+.ai-insights-page input,
+.ai-insights-page select {
+  background-color: white !important;
+  color: #111827 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.ai-insights-page input::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Button text visibility */
+.ai-insights-page button {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Modal text visibility */
+.ai-insights-page .modal *,
+.fixed.inset-0.z-50 * {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Insight modal specific styles */
+.fixed.inset-0.z-50 .bg-white {
+  background-color: white !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Ensure modal text has proper colors */
+.fixed.inset-0.z-50 .text-gray-900 {
+  color: #111827 !important;
+}
+
+.fixed.inset-0.z-50 .text-gray-700 {
+  color: #374151 !important;
+}
+
+.fixed.inset-0.z-50 .text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.fixed.inset-0.z-50 .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+.fixed.inset-0.z-50 .text-sm {
+  font-weight: 400 !important;
+}
+
+/* Ensure modal content sections have proper contrast */
+.fixed.inset-0.z-50 .border {
+  border: 1px solid #e5e7eb !important;
+}
+
+.fixed.inset-0.z-50 .bg-gray-50 {
+  background-color: #f9fafb !important;
+}
+
+/* Ensure buttons have visible text */
+.fixed.inset-0.z-50 button {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure all modal headings are properly styled */
+.fixed.inset-0.z-50 h3,
+.fixed.inset-0.z-50 h4,
+.fixed.inset-0.z-50 h5 {
+  color: #111827 !important;
+  font-weight: 500 !important;
+}
+
+/* Ensure all modal paragraphs and spans are visible */
+.fixed.inset-0.z-50 p,
+.fixed.inset-0.z-50 span {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Override any potential text color issues */
+.fixed.inset-0.z-50 .space-y-2 > div {
+  color: #4b5563 !important;
+}
+
+/* Ensure recommendation cards have proper styling */
+.fixed.inset-0.z-50 .border.rounded-lg {
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+/* Force all text to be visible and contrasted */
+.fixed.inset-0.z-50 * {
+  text-shadow: none !important;
+}
+
+/* Ensure modal backdrop with professional blue/cyan theme */
+.fixed.inset-0.z-50 .bg-gradient-to-br {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.8) 0%, rgba(22, 78, 99, 0.85) 100%) !important;
+}
+
+/* Ensure modal content has maximum contrast */
+.fixed.inset-0.z-50 .inline-block {
+  background-color: white !important;
+  color: #111827 !important;
+}
+
+/* Ensure insight cards have proper text contrast */
+.ai-insights-page .bg-white {
+  background-color: white !important;
+}
+
+.ai-insights-page .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Ensure all text in cards is visible */
+.ai-insights-page .card h3,
+.ai-insights-page .card p,
+.ai-insights-page .card span {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure proper text weights for better readability */
+.ai-insights-page .font-semibold {
+  font-weight: 600 !important;
+  color: #111827 !important;
+}
+
+.ai-insights-page .font-medium {
+  font-weight: 500 !important;
+}
+
+/* AGGRESSIVE MODAL TEXT FIXES - Force all text to be visible */
+/* Target any modal or overlay element */
+[style*="z-index"][style*="10000"] *,
+.fixed.z-50 *,
+div[style*="zIndex: 10000"] * {
+  color: #000000 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  background-color: transparent !important;
+  text-shadow: none !important;
+}
+
+/* Specific overrides for modal backgrounds */
+[style*="z-index"][style*="10000"],
+.fixed.z-50 .bg-white,
+div[style*="zIndex: 10000"] {
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Force headings in modals to be black */
+[style*="z-index"][style*="10000"] h1,
+[style*="z-index"][style*="10000"] h2,
+[style*="z-index"][style*="10000"] h3,
+[style*="z-index"][style*="10000"] h4,
+[style*="z-index"][style*="10000"] h5,
+.fixed.z-50 h1,
+.fixed.z-50 h2,
+.fixed.z-50 h3,
+.fixed.z-50 h4,
+.fixed.z-50 h5 {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+/* Force paragraphs and spans in modals to be visible */
+[style*="z-index"][style*="10000"] p,
+[style*="z-index"][style*="10000"] span,
+[style*="z-index"][style*="10000"] div,
+.fixed.z-50 p,
+.fixed.z-50 span,
+.fixed.z-50 div {
+  color: #333333 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Buttons in modals */
+[style*="z-index"][style*="10000"] button,
+.fixed.z-50 button {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Any element with framer-motion attributes in modals */
+[style*="z-index"][style*="10000"] [data-framer-component],
+[style*="z-index"][style*="10000"] .motion-div,
+.fixed.z-50 [data-framer-component],
+.fixed.z-50 .motion-div {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: inherit !important;
+}
+
+/* NUCLEAR OPTION - Force visibility on the specific modal class */
+.ai-insight-modal,
+.ai-insight-modal * {
+  color: black !important;
+  background-color: transparent !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  text-shadow: none !important;
+}
+
+.ai-insight-modal {
+  background-color: white !important;
+}
+
+.ai-insight-modal h1,
+.ai-insight-modal h2,
+.ai-insight-modal h3,
+.ai-insight-modal h4,
+.ai-insight-modal h5 {
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.ai-insight-modal p,
+.ai-insight-modal span,
+.ai-insight-modal div {
+  color: #333 !important;
+}
+
+.ai-insight-modal .bg-white {
+  background-color: white !important;
+}
+
+.ai-insight-modal .bg-gray-50 {
+  background-color: #f9fafb !important;
+}
+
+/* Force visibility on the modal container with professional blue/cyan theme */
+.ai-modal-container {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.8) 0%, rgba(22, 78, 99, 0.85) 100%) !important;
+}
+
+.ai-modal-container * {
+  color: inherit !important;
+}
+
+/* Remove any potential text-transparent classes */
+.ai-insight-modal .text-transparent {
+  color: black !important;
+}
+
+/* Override any theme or animation that might hide text */
+.ai-insight-modal [class*="text-"] {
+  color: black !important;
+}
+
+.ai-insight-modal [class*="bg-"] {
+  opacity: 1 !important;
+}
+
+/* Force all content to be visible */
+.ai-insight-modal > * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Clean modal styling without debugging borders */
+.ai-insight-modal {
+  background-color: white !important;
+}
+
+.ai-insight-modal * {
+  color: inherit !important;
+  background-color: transparent !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.ai-insight-modal h3 {
+  color: #111827 !important;
+  font-weight: 500 !important;
+}
+
+.ai-insight-modal p {
+  color: #4b5563 !important;
+}
+
+/* FIX INSIGHT CARDS - Force all text to be visible */
+.ai-insights-page .grid > div,
+.ai-insights-page .space-y-6 > div,
+.ai-insights-page [class*="motion"],
+.ai-insights-page .bg-white {
+  background-color: white !important;
+}
+
+/* Ensure text visibility in insight cards */
+.ai-insights-page .bg-white *,
+.ai-insights-page .shadow-sm *,
+.ai-insights-page .border *,
+.ai-insights-page .rounded-lg * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  text-shadow: none !important;
+}
+
+/* Fix the colored severity badges */
+.ai-insights-page .bg-red-50,
+.ai-insights-page .bg-orange-50,
+.ai-insights-page .bg-yellow-50,
+.ai-insights-page .bg-blue-50 {
+  opacity: 1 !important;
+}
+
+.ai-insights-page .text-rose-700 { color: #be185d !important; }
+.ai-insights-page .text-amber-700 { color: #b45309 !important; }
+.ai-insights-page .text-emerald-700 { color: #047857 !important; }
+.ai-insights-page .text-sky-700 { color: #0369a1 !important; }
+.ai-insights-page .text-indigo-700 { color: #4338ca !important; }
+.ai-insights-page .text-teal-700 { color: #0f766e !important; }
+
+/* Force visibility on all framer-motion elements */
+.ai-insights-page [data-framer-component],
+.ai-insights-page .motion-div {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Clean insight card styling */
+.ai-insights-page .bg-white {
+  background-color: white !important;
+}
+
+/* Clean text visibility fixes */
+.ai-insights-page * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  text-shadow: none !important;
+}
+
+/* Ensure page background is gradient */
+.ai-insights-page {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%) !important;
+  color: #1e293b !important;
+}
+
+/* Ensure all cards have proper styling */
+.ai-insights-page .bg-white {
+  background-color: white !important;
+}
+
+.ai-insights-page .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.ai-insights-page .border {
+  border: 1px solid #e5e7eb !important;
+}
+
+/* Remove any transparent or invisible elements */
+.ai-insights-page .text-transparent,
+.ai-insights-page .opacity-0,
+.ai-insights-page .invisible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: black !important;
+}
+
+/* Fix any potential CSS variables that might be causing issues */
+.ai-insights-page {
+  --tw-text-opacity: 1 !important;
+  --tw-bg-opacity: 1 !important;
+}
+
+/* Proper text contrast with new color scheme */
+.ai-insights-page h1,
+.ai-insights-page h2,
+.ai-insights-page h3 {
+  color: #1e293b !important;
+  font-weight: 600 !important;
+}
+
+.ai-insights-page h4,
+.ai-insights-page h5,
+.ai-insights-page h6 {
+  color: #1e293b !important;
+  font-weight: 500 !important;
+}
+
+.ai-insights-page p {
+  color: #475569 !important;
+}
+
+.ai-insights-page span {
+  color: inherit !important;
+}
+
+/* Force high contrast on buttons */
+.ai-insights-page button {
+  font-weight: 600 !important;
+}
+
+.ai-insights-page button.bg-gradient-to-r {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  font-weight: 700 !important;
+}
+
+/* Ensure Run AI Optimization button matches theme */
+.ai-insights-page button[class*="from-purple-600"] {
+  background: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%) !important;
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  font-weight: 600 !important;
+}
+
+/* Specific fixes for font weights */
+.fixed.inset-0.z-50 .font-medium {
+  font-weight: 500 !important;
+}
+
+.fixed.inset-0.z-50 .font-semibold {
+  font-weight: 600 !important;
+}
+
+/* Statistics cards text */
+.ai-insights-page .stat-card * {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Tab navigation text */
+.ai-insights-page nav button {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Badge and pill text */
+.ai-insights-page .badge,
+.ai-insights-page .pill,
+.ai-insights-page .rounded-full {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* TOAST NOTIFICATIONS - Ensure they appear above modals */
+.go2072408551 {
+  z-index: 10002 !important;
+}
+
+/* React Hot Toast container */
+div[data-react-hot-toast] {
+  z-index: 10002 !important;
+}
+
+/* All toast notifications */
+.go2072408551 > div,
+.go2072408551 .go485467936,
+.go2072408551 .go3958317564 {
+  z-index: 10002 !important;
+}
+
+/* Force visibility on Framer Motion elements */
+.ai-insights-page .motion-div,
+.ai-insights-page [data-framer-motion] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Override any theme-related hiding */
+.ai-insights-page * {
+  --tw-text-opacity: 1 !important;
+}

@@ -1,0 +1,45 @@
+{
+  "name": "kmrl-train-induction-system",
+  "version": "1.0.0",
+  "description": "AI-Driven Train Induction Planning & Scheduling system for Kochi Metro Rail Limited",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:mock": "concurrently \"npm run dev:backend-mock\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:backend-mock": "cd backend && npm run dev:mock",
+    "dev:frontend": "cd frontend && npm start",
+    "dev:ai": "cd ai-service && python -m uvicorn main:app --reload --port 8001",
+    "start": "npm run dev",
+    "dev:backend-only": "cd backend && npm run dev",
+    "dev:frontend-only": "cd frontend && npm start",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd backend && npm test",
+    "test:frontend": "cd frontend && npm test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "author": "KMRL Development Team",
+  "license": "MIT",
+  "keywords": [
+    "train-scheduling",
+    "optimization",
+    "AI",
+    "metro-rail",
+    "kmrl"
+  ],
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}

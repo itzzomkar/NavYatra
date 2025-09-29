@@ -1,0 +1,96 @@
+// Simplified Prisma schema for SQLite
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// User Management
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  firstName   String
+  lastName    String
+  role        String   // SQLite doesn't support enums, use strings
+  isActive    Boolean  @default(true)
+  lastLogin   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("users")
+}
+
+// Trainset Management  
+model Trainset {
+  id                String      @id @default(cuid())
+  trainsetNumber    String      @unique
+  manufacturer      String
+  model             String
+  yearOfManufacture Int
+  capacity          Int
+  maxSpeed          Float
+  currentMileage    Float       @default(0)
+  totalMileage      Float       @default(0)
+  status            String      @default("AVAILABLE") // Use string instead of enum
+  location          String?
+  depot             String
+  isActive          Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  // Relations
+  fitnessRecords    FitnessCertificate[]
+  jobCards          JobCard[]
+
+  @@map("trainsets")
+}
+
+// Fitness Certificate Management
+model FitnessCertificate {
+  id            String            @id @default(cuid())
+  trainsetId    String
+  certificateNumber String        @unique
+  issueDate     DateTime
+  expiryDate    DateTime
+  status        String            // Use string instead of enum
+  issuingAuthority String
+  remarks       String?
+  documents     String?           // Store as JSON string
+  lastChecked   DateTime?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  // Relations
+  trainset Trainset @relation(fields: [trainsetId], references: [id], onDelete: Cascade)
+
+  @@map("fitness_certificates")
+}
+
+// Job Card Management
+model JobCard {
+  id            String        @id @default(cuid())
+  trainsetId    String
+  jobCardNumber String        @unique
+  maximoId      String?       
+  priority      String        // Use string instead of enum
+  status        String        // Use string instead of enum
+  workType      String
+  description   String
+  estimatedHours Float?
+  actualHours   Float?
+  assignedTo    String?
+  scheduledDate DateTime?
+  completedDate DateTime?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  trainset Trainset @relation(fields: [trainsetId], references: [id], onDelete: Cascade)
+
+  @@map("job_cards")
+}
