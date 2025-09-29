@@ -58,6 +58,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "vercel-build": "npm run build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",

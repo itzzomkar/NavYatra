@@ -1,0 +1,41 @@
+{
+  "name": "kmrl-train-induction-frontend",
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "REACT_APP_API_URL": "@react_app_api_url",
+    "REACT_APP_WS_URL": "@react_app_ws_url"
+  },
+  "build": {
+    "env": {
+      "REACT_APP_API_URL": "https://your-backend-url.com",
+      "REACT_APP_WS_URL": "wss://your-websocket-url.com"
+    }
+  }
+}
