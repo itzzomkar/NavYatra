@@ -407,14 +407,26 @@ const JobCardsPage: React.FC = () => {
   // Generate demo job cards based on actual trainset data
   const generateDemoJobCards = (trainsets: any[]): JobCard[] => {
     const jobTypes = [
-      { type: 'Brake System Inspection', category: 'PREVENTIVE', priority: 'HIGH', hours: 4 },
-      { type: 'Door Mechanism Repair', category: 'CORRECTIVE', priority: 'CRITICAL', hours: 3 },
-      { type: 'Monthly Safety Inspection', category: 'SCHEDULED', priority: 'MEDIUM', hours: 6 },
-      { type: 'Air Conditioning Service', category: 'PREVENTIVE', priority: 'MEDIUM', hours: 2 },
-      { type: 'Electrical System Check', category: 'PREVENTIVE', priority: 'MEDIUM', hours: 3 },
-      { type: 'Wheel Bearing Replacement', category: 'CORRECTIVE', priority: 'HIGH', hours: 8 },
-      { type: 'Emergency Brake Test', category: 'EMERGENCY', priority: 'EMERGENCY', hours: 1 },
-      { type: 'Interior Cleaning', category: 'SCHEDULED', priority: 'LOW', hours: 2 }
+      { type: 'Brake System Inspection', category: 'PREVENTIVE', priority: 'HIGH', hours: 4, description: 'Complete inspection of disc brakes, brake pads, and pneumatic system' },
+      { type: 'Door Mechanism Repair', category: 'CORRECTIVE', priority: 'CRITICAL', hours: 3, description: 'Repair faulty door mechanism and replace worn components' },
+      { type: 'Monthly Safety Inspection', category: 'SCHEDULED', priority: 'MEDIUM', hours: 6, description: 'Comprehensive safety inspection including fire suppression, emergency exits, and communication systems' },
+      { type: 'Air Conditioning Service', category: 'PREVENTIVE', priority: 'MEDIUM', hours: 2, description: 'Clean filters, check refrigerant levels, and test cooling efficiency' },
+      { type: 'Electrical System Check', category: 'PREVENTIVE', priority: 'MEDIUM', hours: 3, description: 'Inspect wiring, test circuits, and verify electrical connections' },
+      { type: 'Wheel Bearing Replacement', category: 'CORRECTIVE', priority: 'HIGH', hours: 8, description: 'Replace worn wheel bearings and perform wheel alignment' },
+      { type: 'Emergency Brake Test', category: 'EMERGENCY', priority: 'EMERGENCY', hours: 1, description: 'Emergency test of pneumatic brake system following safety alert' },
+      { type: 'Interior Cleaning & Sanitization', category: 'SCHEDULED', priority: 'LOW', hours: 2, description: 'Deep cleaning of passenger compartment and sanitization of surfaces' },
+      { type: 'Traction Motor Maintenance', category: 'PREVENTIVE', priority: 'HIGH', hours: 6, description: 'Service traction motors, lubricate bearings, and test performance' },
+      { type: 'Battery System Check', category: 'PREVENTIVE', priority: 'MEDIUM', hours: 4, description: 'Test battery capacity, check connections, and replace aging cells' },
+      { type: 'HVAC Filter Replacement', category: 'SCHEDULED', priority: 'LOW', hours: 1, description: 'Replace air filtration system filters and check ventilation' },
+      { type: 'Coupler System Inspection', category: 'PREVENTIVE', priority: 'MEDIUM', hours: 3, description: 'Inspect coupling mechanism and test emergency uncoupling' },
+      { type: 'LED Lighting Repair', category: 'CORRECTIVE', priority: 'LOW', hours: 2, description: 'Replace faulty LED strips and test emergency lighting' },
+      { type: 'Pantograph Maintenance', category: 'PREVENTIVE', priority: 'HIGH', hours: 5, description: 'Service pantograph mechanism and replace carbon strips' },
+      { type: 'Floor System Repair', category: 'CORRECTIVE', priority: 'MEDIUM', hours: 4, description: 'Repair damaged flooring and ensure passenger safety' },
+      { type: 'Window Seal Replacement', category: 'CORRECTIVE', priority: 'LOW', hours: 3, description: 'Replace weathered window seals to prevent water ingress' },
+      { type: 'Fire Detection System Test', category: 'SCHEDULED', priority: 'HIGH', hours: 2, description: 'Test fire detection sensors and suppression system' },
+      { type: 'Suspension System Check', category: 'PREVENTIVE', priority: 'MEDIUM', hours: 4, description: 'Inspect pneumatic suspension and adjust ride height' },
+      { type: 'Communication System Upgrade', category: 'SCHEDULED', priority: 'MEDIUM', hours: 8, description: 'Update onboard communication systems and test connectivity' },
+      { type: 'Wheels & Axle Inspection', category: 'PREVENTIVE', priority: 'HIGH', hours: 6, description: 'Ultrasonic testing of wheels and axles for crack detection' }
     ];
     
     const statuses: Array<'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'ON_HOLD'> = 
@@ -422,48 +434,116 @@ const JobCardsPage: React.FC = () => {
     
     const technicians = [
       'Ravi Kumar', 'Priya Sharma', 'Rajesh Kumar', 'Suresh Nair', 'Anitha Das', 
-      'Deepak Singh', 'Lakshmi Nair', 'Arun Kumar'
+      'Deepak Singh', 'Lakshmi Nair', 'Arun Kumar', 'Vivek Patel', 'Meena Iyer',
+      'Kiran Reddy', 'Sanjay Gupta', 'Pooja Nair', 'Ramesh Babu', 'Sneha Shah'
     ];
+    
+    // Parts catalog for different job types
+    const partsInventory = {
+      'Brake System Inspection': [
+        { partNumber: 'BRK-PAD-001', partName: 'Brake Pad Set', quantity: 4, cost: 12500 },
+        { partNumber: 'BRK-DSC-002', partName: 'Brake Disc', quantity: 2, cost: 25000 },
+        { partNumber: 'BRK-FLD-003', partName: 'Brake Fluid (5L)', quantity: 1, cost: 850 }
+      ],
+      'Door Mechanism Repair': [
+        { partNumber: 'DR-MOT-101', partName: 'Door Motor Assembly', quantity: 1, cost: 35000 },
+        { partNumber: 'DR-SNS-102', partName: 'Door Sensor', quantity: 2, cost: 4500 },
+        { partNumber: 'DR-RBR-103', partName: 'Door Rubber Seal', quantity: 1, cost: 2800 }
+      ],
+      'Traction Motor Maintenance': [
+        { partNumber: 'TM-BRG-201', partName: 'Motor Bearing Set', quantity: 2, cost: 45000 },
+        { partNumber: 'TM-OIL-202', partName: 'Synthetic Lubricant (10L)', quantity: 1, cost: 3200 },
+        { partNumber: 'TM-FLT-203', partName: 'Air Filter', quantity: 4, cost: 1500 }
+      ],
+      'Battery System Check': [
+        { partNumber: 'BAT-CEL-301', partName: 'Battery Cell Module', quantity: 2, cost: 75000 },
+        { partNumber: 'BAT-CBL-302', partName: 'High Voltage Cable', quantity: 3, cost: 8500 },
+        { partNumber: 'BAT-CNT-303', partName: 'Battery Contactor', quantity: 1, cost: 12000 }
+      ],
+      'Pantograph Maintenance': [
+        { partNumber: 'PAN-STR-401', partName: 'Carbon Contact Strip', quantity: 2, cost: 18000 },
+        { partNumber: 'PAN-SPR-402', partName: 'Pantograph Spring', quantity: 4, cost: 6500 },
+        { partNumber: 'PAN-INS-403', partName: 'Insulator Assembly', quantity: 2, cost: 15000 }
+      ],
+      'Air Conditioning Service': [
+        { partNumber: 'AC-FLT-501', partName: 'HVAC Filter', quantity: 6, cost: 2400 },
+        { partNumber: 'AC-REF-502', partName: 'Refrigerant R134a (10kg)', quantity: 1, cost: 4800 },
+        { partNumber: 'AC-CMP-503', partName: 'Compressor Belt', quantity: 2, cost: 1200 }
+      ],
+      'LED Lighting Repair': [
+        { partNumber: 'LED-STR-601', partName: 'LED Strip 24V', quantity: 8, cost: 3600 },
+        { partNumber: 'LED-DRV-602', partName: 'LED Driver', quantity: 4, cost: 5200 },
+        { partNumber: 'LED-LNS-603', partName: 'LED Lens Cover', quantity: 12, cost: 1800 }
+      ],
+      'Wheel Bearing Replacement': [
+        { partNumber: 'WHL-BRG-701', partName: 'Wheel Bearing Assembly', quantity: 4, cost: 85000 },
+        { partNumber: 'WHL-GRS-702', partName: 'High Temp Grease (5kg)', quantity: 1, cost: 2500 },
+        { partNumber: 'WHL-SLD-703', partName: 'Bearing Seal Kit', quantity: 4, cost: 6000 }
+      ]
+    };
     
     const demoJobCards: JobCard[] = [];
     let jobCardCounter = 1;
     
-    // Generate 1-3 job cards per trainset
+    // Generate 2-4 job cards per trainset for better data richness
     trainsets.forEach((trainset, index) => {
-      const numJobCards = Math.floor(Math.random() * 3) + 1; // 1-3 job cards per train
+      const numJobCards = Math.floor(Math.random() * 3) + 2; // 2-4 job cards per train
       
       for (let i = 0; i < numJobCards; i++) {
         const jobType = jobTypes[Math.floor(Math.random() * jobTypes.length)];
         const status = statuses[Math.floor(Math.random() * statuses.length)];
         const assignedTo = technicians[Math.floor(Math.random() * technicians.length)];
         
+        // More realistic date distribution
         const scheduledDate = new Date();
-        scheduledDate.setDate(scheduledDate.getDate() + Math.floor(Math.random() * 30) - 15);
+        scheduledDate.setDate(scheduledDate.getDate() + Math.floor(Math.random() * 45) - 15); // -15 to +30 days
         
         const dueDate = new Date(scheduledDate);
-        dueDate.setHours(dueDate.getHours() + jobType.hours);
+        dueDate.setHours(dueDate.getHours() + jobType.hours + Math.floor(Math.random() * 4)); // Add buffer time
         
         let startedAt: string | undefined;
         let completedAt: string | undefined;
         let actualHours: number | undefined;
         
         if (status === 'IN_PROGRESS' || status === 'COMPLETED') {
-          startedAt = new Date(scheduledDate.getTime() + Math.random() * 2 * 60 * 60 * 1000).toISOString();
+          startedAt = new Date(scheduledDate.getTime() + Math.random() * 4 * 60 * 60 * 1000).toISOString();
         }
         
         if (status === 'COMPLETED') {
           const startTime = new Date(startedAt!);
-          completedAt = new Date(startTime.getTime() + (jobType.hours * 60 * 60 * 1000) + Math.random() * 60 * 60 * 1000).toISOString();
-          actualHours = jobType.hours + (Math.random() * 2 - 1); // ±1 hour variation
+          const duration = jobType.hours + (Math.random() * 4 - 2); // ±2 hour variation
+          completedAt = new Date(startTime.getTime() + duration * 60 * 60 * 1000).toISOString();
+          actualHours = Math.max(0.5, duration); // Minimum 0.5 hours
+        }
+        
+        // Assign parts based on job type and add some randomness
+        const assignedParts = partsInventory[jobType.type as keyof typeof partsInventory] || [];
+        const jobParts = Math.random() > 0.3 ? // 70% chance of having parts
+          assignedParts.map(part => ({
+            ...part,
+            quantity: Math.max(1, part.quantity + Math.floor(Math.random() * 3) - 1), // ±1 quantity variation
+            cost: part.cost + Math.floor(Math.random() * part.cost * 0.2) - Math.floor(part.cost * 0.1) // ±10% cost variation
+          })) : [];
+        
+        // Generate more detailed notes based on status and job type
+        let jobNotes = '';
+        if (status === 'COMPLETED') {
+          jobNotes = `${jobType.type} completed successfully. All systems tested and verified. ${jobParts.length > 0 ? `Parts replaced: ${jobParts.map(p => p.partName).join(', ')}.` : ''} Next inspection scheduled.`;
+        } else if (status === 'IN_PROGRESS') {
+          jobNotes = `${jobType.type} currently in progress. ${actualHours ? `${actualHours.toFixed(1)} hours completed.` : ''} Expected completion within scheduled time.`;
+        } else if (status === 'ON_HOLD') {
+          jobNotes = `Work temporarily suspended. ${jobParts.length > 0 ? 'Waiting for parts delivery.' : 'Awaiting technical approval.'}`;
+        } else if (status === 'PENDING') {
+          jobNotes = `${jobType.type} scheduled for ${trainset.trainsetNumber}. ${jobParts.length > 0 ? 'Parts requisitioned and available.' : 'No parts required.'}`;
         }
         
         const jobCard: JobCard = {
           id: `jc-${jobCardCounter}`,
-          jobCardNumber: `JC-2024-${jobCardCounter.toString().padStart(3, '0')}`,
+          jobCardNumber: `JC-2024-${jobCardCounter.toString().padStart(4, '0')}`,
           trainsetId: trainset._id || trainset.id,
           trainsetNumber: trainset.trainsetNumber,
           title: jobType.type,
-          description: `${jobType.type} for ${trainset.trainsetNumber} (${trainset.manufacturer} ${trainset.model})`,
+          description: jobType.description + ` - ${trainset.trainsetNumber} (${trainset.manufacturer} ${trainset.model})`,
           priority: jobType.priority as any,
           status: status,
           category: jobType.category as any,
@@ -475,14 +555,13 @@ const JobCardsPage: React.FC = () => {
           startedAt: startedAt,
           completedAt: completedAt,
           dueDate: dueDate.toISOString(),
-          parts: [],
-          attachments: [],
-          notes: status === 'COMPLETED' ? 'Work completed successfully' : 
-                status === 'IN_PROGRESS' ? 'Work in progress' : '',
-          workOrder: `WO-2024-${(jobCardCounter + 40).toString().padStart(3, '0')}`,
-          ibmMaximoId: `MAXIMO-${12340 + jobCardCounter}`,
-          createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date().toISOString()
+          parts: jobParts,
+          attachments: [], // Could add random attachment names here
+          notes: jobNotes,
+          workOrder: `WO-2024-${(jobCardCounter + 1000).toString().padStart(4, '0')}`,
+          ibmMaximoId: `MAXIMO-${50000 + jobCardCounter}`,
+          createdAt: new Date(Date.now() - Math.random() * 14 * 24 * 60 * 60 * 1000).toISOString(), // Created within last 2 weeks
+          updatedAt: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString() // Updated within last day
         };
         
         demoJobCards.push(jobCard);
@@ -497,12 +576,12 @@ const JobCardsPage: React.FC = () => {
   const generateFallbackJobCards = (): JobCard[] => {
     return [
       {
-        id: '1',
-        jobCardNumber: 'JC-2024-001',
-        trainsetId: 'fallback-1',
-        trainsetNumber: 'KMRL-001',
+        id: 'jc-fallback-001',
+        jobCardNumber: 'JC-2024-0001',
+        trainsetId: 'ts001',
+        trainsetNumber: 'TS001',
         title: 'Brake System Inspection',
-        description: 'Complete inspection and maintenance of braking system',
+        description: 'Complete inspection of disc brakes, brake pads, and pneumatic system - TS001 (Alstom Metropolis)',
         priority: 'HIGH',
         status: 'IN_PROGRESS',
         category: 'PREVENTIVE',
@@ -513,13 +592,120 @@ const JobCardsPage: React.FC = () => {
         scheduledDate: new Date().toISOString(),
         startedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
         dueDate: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString(),
-        parts: [],
+        parts: [
+          { partNumber: 'BRK-PAD-001', partName: 'Brake Pad Set', quantity: 4, cost: 12500 },
+          { partNumber: 'BRK-FLD-003', partName: 'Brake Fluid (5L)', quantity: 1, cost: 850 }
+        ],
         attachments: [],
-        notes: 'Work in progress',
-        workOrder: 'WO-2024-045',
-        ibmMaximoId: 'MAXIMO-12345',
+        notes: 'Brake System Inspection currently in progress. 2.5 hours completed. Expected completion within scheduled time.',
+        workOrder: 'WO-2024-1001',
+        ibmMaximoId: 'MAXIMO-50001',
         createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
         updatedAt: new Date().toISOString()
+      },
+      {
+        id: 'jc-fallback-002',
+        jobCardNumber: 'JC-2024-0002',
+        trainsetId: 'ts002',
+        trainsetNumber: 'TS002',
+        title: 'Traction Motor Maintenance',
+        description: 'Service traction motors, lubricate bearings, and test performance - TS002 (Alstom Metropolis)',
+        priority: 'HIGH',
+        status: 'COMPLETED',
+        category: 'PREVENTIVE',
+        assignedTo: 'Priya Sharma',
+        assignedBy: 'Maintenance Supervisor',
+        estimatedHours: 6,
+        actualHours: 5.8,
+        scheduledDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        startedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        completedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+        dueDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+        parts: [
+          { partNumber: 'TM-BRG-201', partName: 'Motor Bearing Set', quantity: 2, cost: 45000 },
+          { partNumber: 'TM-OIL-202', partName: 'Synthetic Lubricant (10L)', quantity: 1, cost: 3200 }
+        ],
+        attachments: [],
+        notes: 'Traction Motor Maintenance completed successfully. All systems tested and verified. Parts replaced: Motor Bearing Set, Synthetic Lubricant (10L). Next inspection scheduled.',
+        workOrder: 'WO-2024-1002',
+        ibmMaximoId: 'MAXIMO-50002',
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: 'jc-fallback-003',
+        jobCardNumber: 'JC-2024-0003',
+        trainsetId: 'ts003',
+        trainsetNumber: 'TS003',
+        title: 'Door Mechanism Repair',
+        description: 'Repair faulty door mechanism and replace worn components - TS003 (Alstom Metropolis)',
+        priority: 'CRITICAL',
+        status: 'PENDING',
+        category: 'CORRECTIVE',
+        assignedTo: 'Rajesh Kumar',
+        assignedBy: 'Maintenance Supervisor',
+        estimatedHours: 3,
+        scheduledDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        dueDate: new Date(Date.now() + 27 * 60 * 60 * 1000).toISOString(),
+        parts: [
+          { partNumber: 'DR-MOT-101', partName: 'Door Motor Assembly', quantity: 1, cost: 35000 },
+          { partNumber: 'DR-SNS-102', partName: 'Door Sensor', quantity: 2, cost: 4500 }
+        ],
+        attachments: [],
+        notes: 'Door Mechanism Repair scheduled for TS003. Parts requisitioned and available.',
+        workOrder: 'WO-2024-1003',
+        ibmMaximoId: 'MAXIMO-50003',
+        createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: 'jc-fallback-004',
+        jobCardNumber: 'JC-2024-0004',
+        trainsetId: 'ts004',
+        trainsetNumber: 'TS004',
+        title: 'Battery System Check',
+        description: 'Test battery capacity, check connections, and replace aging cells - TS004 (Alstom Metropolis)',
+        priority: 'MEDIUM',
+        status: 'ON_HOLD',
+        category: 'PREVENTIVE',
+        assignedTo: 'Suresh Nair',
+        assignedBy: 'Maintenance Supervisor',
+        estimatedHours: 4,
+        scheduledDate: new Date().toISOString(),
+        startedAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
+        dueDate: new Date(Date.now() + 7 * 60 * 60 * 1000).toISOString(),
+        parts: [
+          { partNumber: 'BAT-CEL-301', partName: 'Battery Cell Module', quantity: 2, cost: 75000 }
+        ],
+        attachments: [],
+        notes: 'Work temporarily suspended. Waiting for parts delivery.',
+        workOrder: 'WO-2024-1004',
+        ibmMaximoId: 'MAXIMO-50004',
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 30 * 60 * 1000).toISOString()
+      },
+      {
+        id: 'jc-fallback-005',
+        jobCardNumber: 'JC-2024-0005',
+        trainsetId: 'ts005',
+        trainsetNumber: 'TS005',
+        title: 'Monthly Safety Inspection',
+        description: 'Comprehensive safety inspection including fire suppression, emergency exits, and communication systems - TS005 (Alstom Metropolis)',
+        priority: 'MEDIUM',
+        status: 'PENDING',
+        category: 'SCHEDULED',
+        assignedTo: 'Anitha Das',
+        assignedBy: 'Maintenance Supervisor',
+        estimatedHours: 6,
+        scheduledDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000 + 10 * 60 * 60 * 1000).toISOString(),
+        parts: [],
+        attachments: [],
+        notes: 'Monthly Safety Inspection scheduled for TS005. No parts required.',
+        workOrder: 'WO-2024-1005',
+        ibmMaximoId: 'MAXIMO-50005',
+        createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
       }
     ];
   };
@@ -1122,16 +1308,30 @@ const JobCardsPage: React.FC = () => {
                 <div>
                   <h4 className="font-medium text-gray-900 mb-3">Parts Required</h4>
                   {selectedJobCard.parts.length > 0 ? (
-                    <div className="space-y-2 text-sm">
-                      {selectedJobCard.parts.map((part, index) => (
-                        <div key={index} className="flex justify-between">
-                          <span>{part.partName} (×{part.quantity})</span>
-                          <span className="font-medium">₹{part.cost}</span>
+                    <div className="space-y-3">
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        {selectedJobCard.parts.map((part, index) => (
+                          <div key={index} className="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">{part.partName}</div>
+                              <div className="text-xs text-gray-500">Part #: {part.partNumber}</div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-sm font-medium text-gray-900">₹{part.cost.toLocaleString('en-IN')}</div>
+                              <div className="text-xs text-gray-500">Qty: {part.quantity}</div>
+                            </div>
+                          </div>
+                        ))}
+                        <div className="flex justify-between items-center pt-3 mt-3 border-t border-gray-300">
+                          <span className="font-medium text-gray-900">Total Parts Cost:</span>
+                          <span className="font-bold text-lg text-indigo-600">
+                            ₹{(selectedJobCard.parts || []).reduce((sum, part) => sum + (part.cost * part.quantity), 0).toLocaleString('en-IN')}
+                          </span>
                         </div>
-                      ))}
+                      </div>
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500">No parts required</p>
+                    <p className="text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">No parts required for this maintenance task</p>
                   )}
                 </div>
               </div>
@@ -1151,6 +1351,44 @@ const JobCardsPage: React.FC = () => {
                   </div>
                 </div>
               )}
+              
+              {/* Cost Summary */}
+              <div className="mt-6 bg-gradient-to-r from-indigo-50 to-blue-50 p-4 rounded-lg border border-indigo-200">
+                <h4 className="font-medium text-gray-900 mb-3">Cost Summary</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <span className="text-gray-600">Labor Cost ({selectedJobCard.actualHours || selectedJobCard.estimatedHours} hrs @ ₹800/hr):</span>
+                      <span className="font-medium text-gray-900">
+                        ₹{((selectedJobCard.actualHours || selectedJobCard.estimatedHours) * 800).toLocaleString('en-IN')}
+                      </span>
+                    </div>
+                    <div className="flex justify-between mb-2">
+                      <span className="text-gray-600">Parts Cost:</span>
+                      <span className="font-medium text-gray-900">
+                        ₹{(selectedJobCard.parts || []).reduce((sum, part) => sum + (part.cost * part.quantity), 0).toLocaleString('en-IN')}
+                      </span>
+                    </div>
+                    <div className="flex justify-between mb-2">
+                      <span className="text-gray-600">Service Tax (18%):</span>
+                      <span className="font-medium text-gray-900">
+                        ₹{(((selectedJobCard.actualHours || selectedJobCard.estimatedHours) * 800 + (selectedJobCard.parts || []).reduce((sum, part) => sum + (part.cost * part.quantity), 0)) * 0.18).toLocaleString('en-IN')}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="md:pl-4 md:border-l border-indigo-200">
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-semibold text-gray-900">Total Estimated Cost:</span>
+                      <span className="text-xl font-bold text-indigo-600">
+                        ₹{(((selectedJobCard.actualHours || selectedJobCard.estimatedHours) * 800 + (selectedJobCard.parts || []).reduce((sum, part) => sum + (part.cost * part.quantity), 0)) * 1.18).toLocaleString('en-IN')}
+                      </span>
+                    </div>
+                    <div className="mt-2 text-xs text-gray-500">
+                      Work Order: {selectedJobCard.workOrder} | Maximo ID: {selectedJobCard.ibmMaximoId}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
