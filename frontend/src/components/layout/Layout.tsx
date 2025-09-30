@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import NotificationCenter from './NotificationCenter';
+import MobileBottomNav from '../ui/MobileBottomNav';
 import ErrorBoundary from '../../components/ui/ErrorBoundary';
 
 // Hooks
@@ -64,7 +65,7 @@ const Layout: React.FC = () => {
 
         {/* Main content */}
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
-          <div className="py-6">
+          <div className="py-6 pb-16 lg:pb-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -78,6 +79,9 @@ const Layout: React.FC = () => {
           </div>
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav />
 
       {/* Notification Center */}
       <ErrorBoundary context="notifications" showReload={false}>

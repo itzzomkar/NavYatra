@@ -17,6 +17,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { user, isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
 
+  // Check if we're in demo mode
+  const isDemoMode = process.env.REACT_APP_DEMO_MODE === 'true';
+  
+  // In demo mode, bypass authentication entirely
+  if (isDemoMode) {
+    return <>{children}</>;
+  }
+
   // Check localStorage directly for tokens
   const hasToken = typeof window !== 'undefined' && localStorage.getItem('kmrl_token');
   const hasUser = typeof window !== 'undefined' && localStorage.getItem('kmrl_user');

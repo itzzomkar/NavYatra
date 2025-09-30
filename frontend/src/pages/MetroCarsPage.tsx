@@ -416,16 +416,17 @@ const MetroCarsPage: React.FC = () => {
   // if (isError) { ... }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
+          className="min-w-0"
         >
-          <h1 className="text-3xl font-bold text-gray-900">Trainsets</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 truncate">Trainsets</h1>
+          <p className="text-gray-600 mt-1 sm:mt-2 text-sm sm:text-base">
             Manage your train fleet and monitor status
           </p>
         </motion.div>
@@ -435,13 +436,14 @@ const MetroCarsPage: React.FC = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
+            className="flex-shrink-0"
           >
             <button 
-              className="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-kmrl-600 to-blue-600 text-white font-medium rounded-lg hover:from-kmrl-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kmrl-500 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-kmrl-600 to-blue-600 text-white font-medium rounded-lg hover:from-kmrl-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kmrl-500 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
               onClick={() => setShowAddModal(true)}
             >
               <PlusIcon className="h-5 w-5 mr-2" />
-              Add Trainset
+              <span className="sm:inline">Add Trainset</span>
             </button>
           </motion.div>
         )}
@@ -453,37 +455,40 @@ const MetroCarsPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <Card>
-          <div className="flex flex-col sm:flex-row gap-4">
+        <Card className="p-3 sm:p-4">
+          <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
             {/* Search */}
             <div className="flex-1">
               <div className="relative">
-                <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <MagnifyingGlassIcon className="h-4 w-4 sm:h-5 sm:w-5 absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search trainsets..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="form-input pl-10"
+                  className="form-input pl-8 sm:pl-10 text-sm sm:text-base h-10 sm:h-auto"
                 />
               </div>
             </div>
 
             {/* Status Filter */}
-            <div className="sm:w-48">
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as TrainsetStatus | 'all')}
-                className="form-input"
-              >
-                <option value="all">All Status</option>
-                <option value={TrainsetStatus.AVAILABLE}>Available</option>
-                <option value={TrainsetStatus.IN_SERVICE}>In Service</option>
-                <option value={TrainsetStatus.MAINTENANCE}>Maintenance</option>
-                <option value={TrainsetStatus.CLEANING}>Cleaning</option>
-                <option value={TrainsetStatus.OUT_OF_ORDER}>Out of Order</option>
-                <option value={TrainsetStatus.DECOMMISSIONED}>Decommissioned</option>
-              </select>
+            <div className="w-full sm:w-48">
+              <div className="relative">
+                <FunnelIcon className="h-4 w-4 absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 sm:hidden" />
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value as TrainsetStatus | 'all')}
+                  className="form-input text-sm sm:text-base h-10 sm:h-auto pl-8 sm:pl-3 appearance-none"
+                >
+                  <option value="all">All Status</option>
+                  <option value={TrainsetStatus.AVAILABLE}>Available</option>
+                  <option value={TrainsetStatus.IN_SERVICE}>In Service</option>
+                  <option value={TrainsetStatus.MAINTENANCE}>Maintenance</option>
+                  <option value={TrainsetStatus.CLEANING}>Cleaning</option>
+                  <option value={TrainsetStatus.OUT_OF_ORDER}>Out of Order</option>
+                  <option value={TrainsetStatus.DECOMMISSIONED}>Decommissioned</option>
+                </select>
+              </div>
             </div>
           </div>
         </Card>
@@ -499,7 +504,7 @@ const MetroCarsPage: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6"
         >
           {filteredTrainsets.map((trainset: any, index: number) => (
             <motion.div
@@ -508,56 +513,59 @@ const MetroCarsPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <Card className="hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-1 border-gray-100">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center">
-                    <div className="p-3 bg-kmrl-50 rounded-lg">
-                      <TruckIcon className="h-8 w-8 text-kmrl-600" />
+              <Card className="hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-1 border-gray-100 p-3 sm:p-4 lg:p-6">
+                <div className="flex items-start justify-between mb-3 sm:mb-4">
+                  <div className="flex items-center min-w-0 flex-1 mr-2">
+                    <div className="p-2 sm:p-3 bg-kmrl-50 rounded-lg flex-shrink-0">
+                      <TruckIcon className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-kmrl-600" />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="text-lg font-semibold text-gray-900">
+                    <div className="ml-2 sm:ml-4 min-w-0">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
                         {trainset.trainsetNumber || trainset.id}
                       </h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs sm:text-sm text-gray-500 truncate">
                         {trainset.manufacturer} {trainset.model}
                       </p>
                     </div>
                   </div>
                   
                   <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
+                    className={`inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
                       trainset.status
-                    )} shadow-sm`}
+                    )} shadow-sm flex-shrink-0`}
                   >
-                    {getStatusIcon(trainset.status)}
-                    <span className="ml-1.5">
-                      {trainset.status.replace(/_/g, ' ').split(' ').map((word: string) => 
-                        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                      ).join(' ')}
+                    <span className="hidden sm:inline mr-1.5">{getStatusIcon(trainset.status)}</span>
+                    <span className="truncate">
+                      <span className="sm:hidden">{trainset.status.split('_')[0]}</span>
+                      <span className="hidden sm:inline">
+                        {trainset.status.replace(/_/g, ' ').split(' ').map((word: string) => 
+                          word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                        ).join(' ')}
+                      </span>
                     </span>
                   </span>
                 </div>
 
-                <div className="space-y-2 mb-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Capacity:</span>
-                    <span className="font-medium text-gray-900">{trainset.capacity || 'N/A'} passengers</span>
+                <div className="space-y-1.5 sm:space-y-2 mb-3 sm:mb-4">
+                  <div className="flex justify-between text-xs sm:text-sm">
+                    <span className="text-gray-500 truncate mr-2">Capacity:</span>
+                    <span className="font-medium text-gray-900 text-right">{trainset.capacity || 'N/A'} passengers</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Total Mileage:</span>
-                    <span className="font-medium text-gray-900">{trainset.totalMileage?.toLocaleString() || '0'} km</span>
+                  <div className="flex justify-between text-xs sm:text-sm">
+                    <span className="text-gray-500 truncate mr-2">Total Mileage:</span>
+                    <span className="font-medium text-gray-900 text-right">{trainset.totalMileage?.toLocaleString() || '0'} km</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Fitness Expiry:</span>
-                    <span className="font-medium text-gray-900">
+                  <div className="flex justify-between text-xs sm:text-sm">
+                    <span className="text-gray-500 truncate mr-2">Fitness Expiry:</span>
+                    <span className="font-medium text-gray-900 text-right">
                       {trainset.fitnessExpiry
                         ? new Date(trainset.fitnessExpiry).toLocaleDateString()
                         : 'Not Set'}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Last Maintenance:</span>
-                    <span className="font-medium text-gray-900">
+                  <div className="flex justify-between text-xs sm:text-sm">
+                    <span className="text-gray-500 truncate mr-2">Last Maintenance:</span>
+                    <span className="font-medium text-gray-900 text-right">
                       {trainset.lastMaintenanceDate
                         ? new Date(trainset.lastMaintenanceDate).toLocaleDateString()
                         : 'Not Set'}

@@ -740,30 +740,31 @@ const EnhancedDashboard: React.FC = () => {
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-gray-50 to-gray-100'}`}>
       {/* Header */}
       <header className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg border-b border-gray-200`}>
-        <div className="px-6 py-4">
+        <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
-                  <Square3Stack3DIcon className="h-8 w-8 text-white" />
+            <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
+              <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+                <div className="p-1.5 sm:p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex-shrink-0">
+                  <Square3Stack3DIcon className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
                 </div>
-                <div>
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    KMRL Train Induction System
+                <div className="min-w-0">
+                  <h1 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent truncate">
+                    <span className="hidden sm:inline">KMRL Train Induction System</span>
+                    <span className="sm:hidden">KMRL System</span>
                   </h1>
-                  <p className="text-sm text-gray-500">Intelligent Fleet Management & Optimization</p>
+                  <p className="text-xs sm:text-sm text-gray-500 truncate">Intelligent Fleet Management</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
-              {/* Time Range Selector */}
-              <div className="flex items-center bg-gray-100 rounded-lg p-1">
+            <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
+              {/* Time Range Selector - Hidden on mobile */}
+              <div className="hidden md:flex items-center bg-gray-100 rounded-lg p-1">
                 {(['24h', '7d', '30d'] as const).map(range => (
                   <button
                     key={range}
                     onClick={() => setTimeRange(range)}
-                    className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${
+                    className={`px-2 lg:px-3 py-1 rounded-md text-xs lg:text-sm font-medium transition-all ${
                       timeRange === range
                         ? 'bg-white text-blue-600 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
@@ -780,17 +781,17 @@ const EnhancedDashboard: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOptimize}
                 disabled={isOptimizing}
-                className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center space-x-2"
+                className="px-2 sm:px-3 lg:px-6 py-1.5 sm:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center space-x-1 sm:space-x-2"
               >
                 {isOptimizing ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-                    <span>Optimizing...</span>
+                    <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-2 border-white border-t-transparent" />
+                    <span className="text-xs sm:text-sm hidden sm:inline">Optimizing...</span>
                   </>
                 ) : (
                   <>
-                    <SparklesIcon className="h-5 w-5" />
-                    <span>Optimize Schedule</span>
+                    <SparklesIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="text-xs sm:text-sm hidden sm:inline lg:inline">Optimize</span>
                   </>
                 )}
               </motion.button>
@@ -801,46 +802,46 @@ const EnhancedDashboard: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={handleAiDecisionClick}
                 disabled={isAiProcessing}
-                className="px-6 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center space-x-2"
+                className="px-2 sm:px-3 lg:px-6 py-1.5 sm:py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center space-x-1 sm:space-x-2"
               >
                 {isAiProcessing ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-                    <span>AI Processing...</span>
+                    <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-2 border-white border-t-transparent" />
+                    <span className="text-xs sm:text-sm hidden lg:inline">AI Processing...</span>
                   </>
                 ) : (
                   <>
-                    <CpuChipIcon className="h-5 w-5" />
-                    <span>AI Decision</span>
+                    <CpuChipIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="text-xs sm:text-sm hidden lg:inline">AI</span>
                   </>
                 )}
               </motion.button>
 
-              {/* Simulation Button */}
+              {/* Simulation Button - Hidden on small screens */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleSimulationClick}
                 disabled={isAiProcessing}
-                className="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center space-x-2"
+                className="hidden sm:flex px-2 sm:px-3 lg:px-6 py-1.5 sm:py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 items-center space-x-1 sm:space-x-2"
               >
                 {isAiProcessing ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-                    <span>Simulating...</span>
+                    <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-2 border-white border-t-transparent" />
+                    <span className="text-xs sm:text-sm hidden lg:inline">Simulating...</span>
                   </>
                 ) : (
                   <>
-                    <RocketLaunchIcon className="h-5 w-5" />
-                    <span>What-If Sim</span>
+                    <RocketLaunchIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="text-xs sm:text-sm hidden lg:inline">Sim</span>
                   </>
                 )}
               </motion.button>
 
               {/* Notifications */}
               <div className="relative">
-                <button className="p-2 rounded-lg hover:bg-gray-100 relative">
-                  <BellIcon className="h-6 w-6 text-gray-600" />
+                <button className="p-1.5 sm:p-2 rounded-lg hover:bg-gray-100 relative">
+                  <BellIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" />
                   {alerts.length > 0 && (
                     <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full animate-pulse" />
                   )}
@@ -850,7 +851,7 @@ const EnhancedDashboard: React.FC = () => {
               {/* Dark Mode Toggle */}
               <button
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="p-2 rounded-lg hover:bg-gray-100"
+                className="p-1.5 sm:p-2 rounded-lg hover:bg-gray-100 text-lg sm:text-xl"
               >
                 {isDarkMode ? '🌙' : '☀️'}
               </button>
@@ -858,12 +859,12 @@ const EnhancedDashboard: React.FC = () => {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex space-x-1 mt-4">
+          <div className="flex space-x-0.5 sm:space-x-1 mt-3 sm:mt-4 overflow-x-auto scrollbar-hide">
             {(['overview', 'fleet', 'optimization', 'analytics'] as const).map(view => (
               <button
                 key={view}
                 onClick={() => setSelectedView(view)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium text-xs sm:text-sm transition-all whitespace-nowrap flex-shrink-0 ${
                   selectedView === view
                     ? 'bg-blue-100 text-blue-700'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -877,46 +878,46 @@ const EnhancedDashboard: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="px-6 py-6">
+      <main className="px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
         {/* KPI Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6">
           {kpis.map((kpi, index) => (
             <motion.div
               key={kpi.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
-              className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-4 hover:shadow-xl transition-shadow cursor-pointer`}
+              className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-3 sm:p-4 hover:shadow-xl transition-shadow cursor-pointer`}
             >
-              <div className="flex items-start justify-between mb-2">
-                <div className={`p-2 ${kpi.bgColor} rounded-lg`}>
-                  <kpi.icon className={`h-5 w-5 ${kpi.color}`} />
+              <div className="flex items-start justify-between mb-1 sm:mb-2">
+                <div className={`p-1.5 sm:p-2 ${kpi.bgColor} rounded-lg`}>
+                  <kpi.icon className={`h-4 w-4 sm:h-5 sm:w-5 ${kpi.color}`} />
                 </div>
                 <div className={`flex items-center text-xs font-medium ${
                   kpi.trend === 'up' ? 'text-green-600' : 
                   kpi.trend === 'down' ? 'text-red-600' : 
                   'text-gray-500'
                 }`}>
-                  {kpi.trend === 'up' ? <ArrowUpIcon className="h-3 w-3 mr-1" /> :
-                   kpi.trend === 'down' ? <ArrowDownIcon className="h-3 w-3 mr-1" /> : null}
-                  {Math.abs(kpi.change)}%
+                  {kpi.trend === 'up' ? <ArrowUpIcon className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" /> :
+                   kpi.trend === 'down' ? <ArrowDownIcon className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" /> : null}
+                  <span className="text-xs">{Math.abs(kpi.change)}%</span>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">{kpi.value}</div>
-              <div className="text-xs text-gray-500 mt-1">{kpi.label}</div>
+              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white truncate">{kpi.value}</div>
+              <div className="text-xs text-gray-500 mt-1 truncate">{kpi.label}</div>
             </motion.div>
           ))}
         </div>
 
         {/* Alerts Section */}
         {alerts.length > 0 && (
-          <div className="mb-6">
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4">
-              <h3 className="text-lg font-semibold mb-3 flex items-center">
-                <BellAlertIcon className="h-5 w-5 mr-2 text-blue-600" />
-                Active Alerts
+          <div className="mb-4 sm:mb-6">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-3 sm:p-4">
+              <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 flex items-center">
+                <BellAlertIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-blue-600" />
+                <span className="truncate">Active Alerts</span>
               </h3>
-              <div className="space-y-2 max-h-32 overflow-y-auto">
+              <div className="space-y-2 max-h-24 sm:max-h-32 overflow-y-auto">
                 <AnimatePresence>
                   {alerts.slice(0, 3).map((alert) => (
                     <motion.div
@@ -924,20 +925,20 @@ const EnhancedDashboard: React.FC = () => {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
-                      className={`flex items-start space-x-3 p-3 rounded-lg ${
+                      className={`flex items-start space-x-2 sm:space-x-3 p-2 sm:p-3 rounded-lg ${
                         alert.type === 'critical' ? 'bg-red-50 border-l-4 border-red-500' :
                         alert.type === 'warning' ? 'bg-yellow-50 border-l-4 border-yellow-500' :
                         'bg-blue-50 border-l-4 border-blue-500'
                       }`}
                     >
-                      <div className="flex-shrink-0">
-                        {alert.type === 'critical' ? <XCircleIcon className="h-5 w-5 text-red-600" /> :
-                         alert.type === 'warning' ? <ExclamationTriangleIcon className="h-5 w-5 text-yellow-600" /> :
-                         <CheckCircleIcon className="h-5 w-5 text-blue-600" />}
+                      <div className="flex-shrink-0 pt-0.5">
+                        {alert.type === 'critical' ? <XCircleIcon className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" /> :
+                         alert.type === 'warning' ? <ExclamationTriangleIcon className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" /> :
+                         <CheckCircleIcon className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />}
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-900">{alert.message}</p>
-                        <p className="text-xs text-gray-500 mt-1">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2">{alert.message}</p>
+                        <p className="text-xs text-gray-500 mt-0.5 sm:mt-1">
                           {new Date(alert.timestamp).toLocaleTimeString()}
                         </p>
                       </div>
@@ -950,30 +951,30 @@ const EnhancedDashboard: React.FC = () => {
         )}
 
         {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
           {/* Performance Chart */}
-          <div className={`lg:col-span-2 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6`}>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">System Performance</h3>
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-500">Live</span>
+          <div className={`lg:col-span-2 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-3 sm:p-4 lg:p-6`}>
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h3 className="text-base sm:text-lg font-semibold truncate">System Performance</h3>
+              <div className="flex items-center space-x-1 sm:space-x-2">
+                <span className="text-xs sm:text-sm text-gray-500">Live</span>
                 <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
               </div>
             </div>
             {/* Temporarily replace with static content to test */}
-            <div className="h-[300px] bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
+            <div className="h-[200px] sm:h-[250px] lg:h-[300px] bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
               <div className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">94.2%</div>
-                <div className="text-sm text-gray-600">Fleet Utilization</div>
-                <div className="mt-4 text-xs text-gray-500">Chart temporarily disabled for testing</div>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">94.2%</div>
+                <div className="text-xs sm:text-sm text-gray-600">Fleet Utilization</div>
+                <div className="mt-2 sm:mt-4 text-xs text-gray-500">Chart temporarily disabled for testing</div>
               </div>
             </div>
           </div>
 
           {/* Maintenance Distribution */}
-          <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6`}>
-            <h3 className="text-lg font-semibold mb-4">Maintenance Distribution</h3>
-            <div style={{ height: '300px', position: 'relative' }}>
+          <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-3 sm:p-4 lg:p-6`}>
+            <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 truncate">Maintenance Distribution</h3>
+            <div style={{ height: '200px', position: 'relative' }} className="sm:h-[250px] lg:h-[300px]">
               <Doughnut 
                 key="maintenance-chart-stable"
                 data={maintenanceChartData}

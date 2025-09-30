@@ -17,6 +17,7 @@ import {
   ChartPieIcon,
   WrenchScrewdriverIcon,
   CpuChipIcon,
+  ArrowRightOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
 import { useAuth } from '../../hooks/useAuth';
@@ -180,36 +181,34 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         initial="closed"
         animate={isOpen ? 'open' : 'closed'}
         variants={sidebarVariants}
-        className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg lg:translate-x-0 lg:static lg:inset-0"
+        className="fixed inset-y-0 left-0 z-50 w-72 sm:w-80 lg:w-64 bg-white shadow-xl lg:shadow-lg lg:translate-x-0 lg:static lg:inset-0"
       >
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex h-16 items-center justify-between px-6 border-b border-gray-200">
-            <div className="flex items-center">
+          <div className="flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 border-b border-gray-200">
+            <div className="flex items-center min-w-0">
               <div className="flex-shrink-0">
-                <img 
-                  src="/kmrl-logo.svg" 
-                  alt="KMRL Metro Logo" 
-                  className="h-10 w-auto"
-                />
+                <div className="h-8 w-8 sm:h-10 sm:w-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm sm:text-base">K</span>
+                </div>
               </div>
-              <div className="ml-3">
-                <h1 className="text-lg font-semibold text-gray-900">KMRL Metro</h1>
-                <p className="text-xs text-gray-500">Train Induction System</p>
+              <div className="ml-2 sm:ml-3 min-w-0">
+                <h1 className="text-base sm:text-lg font-semibold text-gray-900 truncate">KMRL Metro</h1>
+                <p className="text-xs text-gray-500 truncate">Train Induction System</p>
               </div>
             </div>
 
             {/* Close button for mobile */}
             <button
               onClick={onClose}
-              className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              className="lg:hidden p-1.5 sm:p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 flex-shrink-0"
             >
-              <XMarkIcon className="h-5 w-5" />
+              <XMarkIcon className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+          <nav className="flex-1 px-3 sm:px-4 py-4 sm:py-6 space-y-1 sm:space-y-2 overflow-y-auto">
             {visibleItems.map((item, index) => {
               const isActive = location.pathname === item.href;
               
@@ -224,17 +223,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                     to={item.href}
                     onClick={onClose}
                     className={({ isActive }) =>
-                      `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      `flex items-center px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-colors ${
                         isActive
                           ? 'bg-kmrl-100 text-kmrl-700 border-r-2 border-kmrl-600'
                           : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                       }`
                     }
                   >
-                    <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
-                    <span className="flex-1">{item.name}</span>
+                    <item.icon className="mr-3 sm:mr-4 h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
+                    <span className="flex-1 truncate">{item.name}</span>
                     {item.badge && (
-                      <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                         {item.badge}
                       </span>
                     )}
@@ -245,28 +244,29 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </nav>
 
           {/* User Profile Section */}
-          <div className="border-t border-gray-200 p-4">
+          <div className="border-t border-gray-200 p-3 sm:p-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-10 w-10 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-700">
+                <div className="h-9 w-9 sm:h-10 sm:w-10 bg-kmrl-100 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-kmrl-700">
                     {user?.firstName?.charAt(0).toUpperCase() || 'U'}
                   </span>
                 </div>
               </div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  {user ? `${user.firstName} ${user.lastName}` : 'Guest'}
+              <div className="ml-3 flex-1 min-w-0">
+                <p className="text-sm sm:text-base font-medium text-gray-900 truncate">
+                  {user ? `${user.firstName} ${user.lastName}` : 'Guest User'}
                 </p>
-                <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
+                <p className="text-xs text-gray-500 capitalize truncate">{user?.role || 'Demo'}</p>
               </div>
             </div>
             
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="mt-3 w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-3 w-full text-left px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
             >
+              <ArrowRightOnRectangleIcon className="h-4 w-4 mr-2" />
               {isLoggingOut ? 'Signing out...' : 'Sign out'}
             </button>
           </div>

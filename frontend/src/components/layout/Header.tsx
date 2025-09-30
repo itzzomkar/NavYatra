@@ -157,15 +157,15 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 lg:pl-64">
-      <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
+      <div className="flex items-center justify-between h-14 sm:h-16 px-3 sm:px-4 lg:px-6">
         {/* Left side - Menu button and title */}
-        <div className="flex items-center">
+        <div className="flex items-center min-w-0 flex-1">
           {/* Mobile menu button */}
           <button
             onClick={onMenuClick}
-            className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+            className="lg:hidden p-1.5 sm:p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 mr-2 flex-shrink-0"
           >
-            <Bars3Icon className="h-6 w-6" />
+            <Bars3Icon className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
 
           {/* Page title */}
@@ -174,9 +174,9 @@ const Header: React.FC<HeaderProps> = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="ml-4 lg:ml-0"
+            className="min-w-0 flex-1 lg:ml-0"
           >
-            <h1 className="text-xl font-semibold text-gray-900">
+            <h1 className="text-lg sm:text-xl font-semibold text-gray-900 truncate">
               {getPageTitle()}
             </h1>
           </motion.div>
@@ -199,25 +199,25 @@ const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Right side - Notifications and user menu */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
           {/* Mobile search button */}
-          <button className="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
-            <MagnifyingGlassIcon className="h-6 w-6" />
+          <button className="md:hidden p-1.5 sm:p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+            <MagnifyingGlassIcon className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
 
           {/* Notifications button */}
           <button
             onClick={onNotificationsClick}
-            className="relative p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+            className="relative p-1.5 sm:p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
           >
-            <BellIcon className="h-6 w-6" />
+            <BellIcon className="h-5 w-5 sm:h-6 sm:w-6" />
             {unreadNotifications > 0 && (
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center"
+                className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 h-4 w-4 sm:h-5 sm:w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center"
               >
-                {unreadNotifications > 99 ? '99+' : unreadNotifications}
+                <span className="text-xs">{unreadNotifications > 99 ? '99+' : unreadNotifications}</span>
               </motion.span>
             )}
           </button>
@@ -226,14 +226,14 @@ const Header: React.FC<HeaderProps> = ({
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center space-x-2 p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              className="flex items-center space-x-1 sm:space-x-2 p-1.5 sm:p-2 rounded-md text-gray-700 hover:bg-gray-100"
             >
-              <div className="h-8 w-8 bg-kmrl-100 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-kmrl-700">
+              <div className="h-7 w-7 sm:h-8 sm:w-8 bg-kmrl-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-xs sm:text-sm font-medium text-kmrl-700">
                   {user?.firstName?.charAt(0).toUpperCase() || user?.lastName?.charAt(0).toUpperCase() || 'U'}
                 </span>
               </div>
-              <span className="hidden sm:block text-sm font-medium">
+              <span className="hidden sm:block text-sm font-medium truncate max-w-24 lg:max-w-none">
                 {user ? `${user.firstName} ${user.lastName}`.trim() : ''}
               </span>
             </button>
@@ -281,16 +281,16 @@ const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Mobile search bar (slides down when search button is clicked) */}
-      <div className="md:hidden border-t border-gray-200 px-4 py-2">
+      <div className="md:hidden border-t border-gray-200 px-3 sm:px-4 py-2">
         <form onSubmit={handleSearch}>
           <div className="relative">
-            <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <MagnifyingGlassIcon className="h-4 w-4 sm:h-5 sm:w-5 absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Search metro cars, operations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kmrl-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400"
+              className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-kmrl-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400"
             />
           </div>
         </form>
